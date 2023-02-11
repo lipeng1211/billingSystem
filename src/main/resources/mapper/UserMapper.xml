@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.billingsystem.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.lp.billingsystem.domain.User">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="securityCode" column="security_code" jdbcType="VARCHAR"/>
+            <result property="createdate" column="createdate" jdbcType="TIMESTAMP"/>
+            <result property="isDel" column="is_del" jdbcType="TINYINT"/>
+            <result property="accountNumber" column="account_number" jdbcType="VARCHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,username,password,
+        security_code,createdate,is_del,
+        account_number,url
+    </sql>
+</mapper>

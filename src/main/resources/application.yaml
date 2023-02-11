@@ -1,0 +1,48 @@
+
+server:
+  port: 8082
+spring:
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: Lp1211..
+    hikari:
+      connection-timeout: 10000
+      validation-timeout: 3000
+      idle-timeout: 60000
+      login-timeout: 5
+      max-lifetime: 60000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      read-only: false
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: Lp1211..
+      database: 5
+      client-type: lettuce
+      connect-timeout: 5000
+      lettuce:
+        pool:
+          max-active: 20
+          max-idle: 10
+          min-idle: 2
+          max-wait: 5000
+#  data:
+#    mongodb:
+#      uri: mongodb://admin:123456@127.0.0.1:27017
+#      database: group
+
+mybatis-plus:
+  configuration:
+    call-setters-on-nulls: true
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.lp.billingsystem.domain
+logging:
+  config: classpath:log4j2.xml
