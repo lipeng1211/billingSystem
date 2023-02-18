@@ -6,14 +6,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 
  * @TableName user
  */
 @TableName(value ="user")
-@Data
 public class User implements Serializable {
     /**
      * id
@@ -56,8 +54,139 @@ public class User implements Serializable {
      */
     private String url;
 
+    /**
+     * 1：亚星 
+     */
+    private Integer type;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    /**
+     * id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * 用户
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * 用户
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * 密码
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * 密码
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * 安全码
+     */
+    public String getSecurityCode() {
+        return securityCode;
+    }
+
+    /**
+     * 安全码
+     */
+    public void setSecurityCode(String securityCode) {
+        this.securityCode = securityCode;
+    }
+
+    /**
+     * 创建日期
+     */
+    public Date getCreatedate() {
+        return createdate;
+    }
+
+    /**
+     * 创建日期
+     */
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
+    }
+
+    /**
+     * 是否删除
+     */
+    public Integer getIsDel() {
+        return isDel;
+    }
+
+    /**
+     * 是否删除
+     */
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
+    }
+
+    /**
+     * 所属账号
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * 所属账号
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    /**
+     * 网址
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * 网址
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    /**
+     * 1：亚星 
+     */
+    public Integer getType() {
+        return type;
+    }
+
+    /**
+     * 1：亚星 
+     */
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
     @Override
     public boolean equals(Object that) {
@@ -78,7 +207,8 @@ public class User implements Serializable {
             && (this.getCreatedate() == null ? other.getCreatedate() == null : this.getCreatedate().equals(other.getCreatedate()))
             && (this.getIsDel() == null ? other.getIsDel() == null : this.getIsDel().equals(other.getIsDel()))
             && (this.getAccountNumber() == null ? other.getAccountNumber() == null : this.getAccountNumber().equals(other.getAccountNumber()))
-            && (this.getUrl() == null ? other.getUrl() == null : this.getUrl().equals(other.getUrl()));
+            && (this.getUrl() == null ? other.getUrl() == null : this.getUrl().equals(other.getUrl()))
+            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()));
     }
 
     @Override
@@ -93,6 +223,7 @@ public class User implements Serializable {
         result = prime * result + ((getIsDel() == null) ? 0 : getIsDel().hashCode());
         result = prime * result + ((getAccountNumber() == null) ? 0 : getAccountNumber().hashCode());
         result = prime * result + ((getUrl() == null) ? 0 : getUrl().hashCode());
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         return result;
     }
 
@@ -110,6 +241,7 @@ public class User implements Serializable {
         sb.append(", isDel=").append(isDel);
         sb.append(", accountNumber=").append(accountNumber);
         sb.append(", url=").append(url);
+        sb.append(", type=").append(type);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

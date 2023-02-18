@@ -12,8 +12,15 @@ import com.lp.billingsystem.domain.User;
 import com.lp.billingsystem.domain.Yaxing;
 import com.lp.billingsystem.service.UserService;
 import com.lp.billingsystem.service.YaxingService;
+import com.lp.billingsystem.util.DateUtil;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.extern.log4j.Log4j2;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -22,15 +29,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static com.codeborne.selenide.Selenide.*;
 import static java.awt.SystemColor.text;
@@ -53,6 +60,7 @@ public class YaxingBills {
     public void bills() {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.isNull("account_number");
+        wrapper.eq("is_del",false);
         List<User> list = userService.list(wrapper);
         for (User user: list) {
             Configuration.browserSize = "1280x800";
@@ -87,6 +95,11 @@ public class YaxingBills {
             String format = tdate.format(dateTimeFormatter);
             Boolean isTrue = true;
 //        Jedis jedis = RedisConnection.getJedis();
+            QueryWrapper queryWrapper = new QueryWrapper();
+            queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+            queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+            queryWrapper.eq("account_number",user.getAccountNumber());
+            queryWrapper.eq("type",1);
             ArrayList<Yaxing> yaxings = new ArrayList<>();
             Yaxing yaxing = new Yaxing();
             int i1 = 0;
@@ -129,30 +142,46 @@ public class YaxingBills {
                         for (int j = 0; j < tbody.size(); j++) {
 //                        String text = tbody.get(j).getText();
                             List<WebElement> td = tbody.get(j).findElements(By.tagName("td"));
-                            i1 = 1;
-                            yaxing = new Yaxing();
-                            yaxing.setJb(td.get(i1++).getText());
-                            yaxing.setZh(td.get(i1++).getText());
-                            yaxing.setLx(td.get(i1++).getText());
-                            yaxing.setBs(td.get(i1++).getText());
-                            yaxing.setTzje(td.get(i1++).getText());
-                            yaxing.setZxml(td.get(i1++).getText());
-                            yaxing.setSyje(td.get(i1++).getText());
-                            yaxing.setGdzcb(td.get(i1++).getText());
-                            yaxing.setJsxsy(td.get(i1++).getText());
-                            yaxing.setJsxxml(td.get(i1++).getText());
-                            yaxing.setXmb(td.get(i1++).getText());
-                            yaxing.setXmyj(td.get(i1++).getText());
-                            yaxing.setJsxjg(td.get(i1++).getText());
-                            yaxing.setHll(td.get(i1++).getText());
-                            yaxing.setGdjg(td.get(i1++).getText());
-                            yaxing.setAccountNumber(user.getUsername());
-                            yaxing.setCreatedate(new Date());
-                            yaxing.setType("1");
-                            yaxing.setNumberOfLayers(1);
-                            yaxings.add(yaxing);
+                            if (td.size()>14){
+                                i1 = 1;
+                                yaxing = new Yaxing();
+                                yaxing.setJb(td.get(i1++).getText());
+                                yaxing.setZh(td.get(i1++).getText());
+                                yaxing.setLx(td.get(i1++).getText());
+                                yaxing.setBs(td.get(i1++).getText());
+                                yaxing.setTzje(td.get(i1++).getText());
+                                yaxing.setZxml(td.get(i1++).getText());
+                                yaxing.setSyje(td.get(i1++).getText());
+                                yaxing.setGdzcb(td.get(i1++).getText());
+                                yaxing.setJsxsy(td.get(i1++).getText());
+                                yaxing.setJsxxml(td.get(i1++).getText());
+                                yaxing.setXmb(td.get(i1++).getText());
+                                yaxing.setXmyj(td.get(i1++).getText());
+                                yaxing.setJsxjg(td.get(i1++).getText());
+                                yaxing.setHll(td.get(i1++).getText());
+                                yaxing.setGdjg(td.get(i1++).getText());
+                                yaxing.setAccountNumber(user.getUsername());
+                                yaxing.setCreatedate(new Date());
+                                yaxing.setType("1");
+                                yaxing.setNumberOfLayers(1);
+                                yaxing.setStartDate(DateUtil.lastMonday());
+                                yaxing.setEndDate(DateUtil.lastSunday());
 
-                            log.info("yaxing::{}",yaxing);
+                                queryWrapper =new QueryWrapper();
+                                queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                                queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                queryWrapper.eq("account_number",user.getUsername());
+                                queryWrapper.eq("type",1);
+                                queryWrapper.eq("zh",yaxing.getZh());
+                                queryWrapper.eq("jb",yaxing.getJb());
+                                queryWrapper.eq("lx",yaxing.getLx());
+                                Yaxing one = yaxingService.getOne(queryWrapper);
+                                if (one == null && yaxing.getZh().length()>0){
+                                    yaxings.add(yaxing);
+                                }
+                                log.info("yaxing::{}",yaxing);
+                            }
+
 //                            }
                         }
 
@@ -171,29 +200,52 @@ public class YaxingBills {
                         for (int j = 0; j < tbody.size(); j++) {
 //                        String text = tbody.get(j).getText();
                             List<WebElement> td = tbody.get(j).findElements(By.tagName("td"));
-                            i1 = 1;
-                            yaxing = new Yaxing();
-                            yaxing.setJb(td.get(i1++).getText());
-                            yaxing.setZh(td.get(i1++).getText());
-                            yaxing.setBm(td.get(i1++).getText());
-                            yaxing.setLx(td.get(i1++).getText());
-                            yaxing.setBs(td.get(i1++).getText());
-                            yaxing.setTzje(td.get(i1++).getText());
-                            yaxing.setZxml(td.get(i1++).getText());
-                            yaxing.setSyje(td.get(i1++).getText());
-                            yaxing.setZdlzcb(td.get(i1++).getText());
-                            yaxing.setJsxsy(td.get(i1++).getText());
-                            yaxing.setJsxxml(td.get(i1++).getText());
-                            yaxing.setXmb(td.get(i1++).getText());
-                            yaxing.setXmyj(td.get(i1++).getText());
-                            yaxing.setJsxjg(td.get(i1++).getText());
-                            yaxing.setHll(td.get(i1++).getText());
-                            yaxing.setGdjg(td.get(i1++).getText());
-                            yaxing.setCreatedate(new Date());
-                            yaxing.setAccountNumber(user.getUsername());
-                            yaxing.setNumberOfLayers(1);
-                            yaxing.setType("1");
-                            yaxings.add(yaxing);
+                            if (td.size() >14){
+                                i1 = 1;
+                                yaxing = new Yaxing();
+                                yaxing.setJb(td.get(i1++).getText());
+                                yaxing.setZh(td.get(i1++).getText());
+                                yaxing.setBm(td.get(i1++).getText());
+                                yaxing.setLx(td.get(i1++).getText());
+                                yaxing.setBs(td.get(i1++).getText());
+                                yaxing.setTzje(td.get(i1++).getText());
+                                yaxing.setZxml(td.get(i1++).getText());
+                                yaxing.setSyje(td.get(i1++).getText());
+                                yaxing.setZdlzcb(td.get(i1++).getText());
+                                yaxing.setJsxsy(td.get(i1++).getText());
+                                yaxing.setJsxxml(td.get(i1++).getText());
+                                yaxing.setXmb(td.get(i1++).getText());
+                                yaxing.setXmyj(td.get(i1++).getText());
+                                yaxing.setJsxjg(td.get(i1++).getText());
+                                yaxing.setHll(td.get(i1++).getText());
+                                yaxing.setGdjg(td.get(i1++).getText());
+                                yaxing.setCreatedate(new Date());
+                                yaxing.setAccountNumber(user.getUsername());
+                                yaxing.setNumberOfLayers(1);
+                                yaxing.setType("1");
+                                yaxing.setStartDate(DateUtil.lastMonday());
+                                yaxing.setEndDate(DateUtil.lastSunday());
+
+
+
+                                queryWrapper =new QueryWrapper();
+                                queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                                queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                queryWrapper.eq("account_number",user.getUsername());
+                                queryWrapper.eq("type",1);
+
+                                queryWrapper.eq("zh",yaxing.getZh());
+                                queryWrapper.eq("jb",yaxing.getJb());
+                                queryWrapper.eq("lx",yaxing.getLx());
+                                Yaxing one = yaxingService.getOne(queryWrapper);
+                                if (one == null && yaxing.getZh().length()>0){
+                                    yaxings.add(yaxing);
+                                }
+
+
+                            }
+
+//                            yaxings.add(yaxing);
 
                         }
 
@@ -201,6 +253,7 @@ public class YaxingBills {
 
                     QueryWrapper wrapper2 = new QueryWrapper();
                     wrapper2.eq("account_number",user.getUsername());
+                    wrapper2.eq("is_del",false);
                     List<User> list2 = userService.list(wrapper2);
                     HashMap map = new HashMap();
                     for (User user2:list2
@@ -242,34 +295,51 @@ public class YaxingBills {
                                         for (int k = 0; k < tbody2.size(); k++) {
 //                        String text = tbody.get(j).getText();
                                             td = tbody2.get(k).findElements(By.tagName("td"));
-                                            i1 = 1;
-                                            yaxing = new Yaxing();
-                                            yaxing.setJb(td.get(i1++).getText());
-                                            yaxing.setZh(td.get(i1++).getText());
-                                            yaxing.setBm(td.get(i1++).getText());
-                                            yaxing.setLx(td.get(i1++).getText());
-                                            yaxing.setBs(td.get(i1++).getText());
-                                            yaxing.setTzje(td.get(i1++).getText());
-                                            yaxing.setZxml(td.get(i1++).getText());
-                                            yaxing.setSyje(td.get(i1++).getText());
-                                            yaxing.setZdlzcb(td.get(i1++).getText());
-                                            yaxing.setJsxsy(td.get(i1++).getText());
-                                            yaxing.setJsxxml(td.get(i1++).getText());
-                                            yaxing.setXmb(td.get(i1++).getText());
-                                            yaxing.setXmyj(td.get(i1++).getText());
-                                            yaxing.setJsxjg(td.get(i1++).getText());
-                                            yaxing.setHll(td.get(i1++).getText());
-                                            yaxing.setGdjg(td.get(i1++).getText());
-                                            yaxing.setCreatedate(new Date());
-                                            yaxing.setAccountNumber(user.getUsername());
-                                            yaxing.setType("1");
-                                            yaxing.setNumberOfLayers(2);
-                                            yaxings.add(yaxing);
+                                            if (td.size()>14){
+                                                i1 = 1;
+                                                yaxing = new Yaxing();
+                                                yaxing.setJb(td.get(i1++).getText());
+                                                yaxing.setZh(td.get(i1++).getText());
+                                                yaxing.setBm(td.get(i1++).getText());
+                                                yaxing.setLx(td.get(i1++).getText());
+                                                yaxing.setBs(td.get(i1++).getText());
+                                                yaxing.setTzje(td.get(i1++).getText());
+                                                yaxing.setZxml(td.get(i1++).getText());
+                                                yaxing.setSyje(td.get(i1++).getText());
+                                                yaxing.setZdlzcb(td.get(i1++).getText());
+                                                yaxing.setJsxsy(td.get(i1++).getText());
+                                                yaxing.setJsxxml(td.get(i1++).getText());
+                                                yaxing.setXmb(td.get(i1++).getText());
+                                                yaxing.setXmyj(td.get(i1++).getText());
+                                                yaxing.setJsxjg(td.get(i1++).getText());
+                                                yaxing.setHll(td.get(i1++).getText());
+                                                yaxing.setGdjg(td.get(i1++).getText());
+                                                yaxing.setCreatedate(new Date());
+                                                yaxing.setAccountNumber(user.getUsername());
+                                                yaxing.setType("1");
+                                                yaxing.setNumberOfLayers(2);
+//                                            yaxings.add(yaxing);
+                                                yaxing.setStartDate(DateUtil.lastMonday());
+                                                yaxing.setEndDate(DateUtil.lastSunday());
 
-//                                            for (int l = 1; l < td2.size(); l++) {
-//                                                String text = td2.get(l).getText();
-//                                                log.info("text::{}",text);
-//                                            }
+
+
+                                                queryWrapper =new QueryWrapper();
+                                                queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                                                queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                                queryWrapper.eq("account_number",user.getUsername());
+                                                queryWrapper.eq("type",1);
+                                                queryWrapper.eq("zh",yaxing.getZh());
+                                                queryWrapper.eq("jb",yaxing.getJb());
+                                                queryWrapper.eq("lx",yaxing.getLx());
+                                                Yaxing one = yaxingService.getOne(queryWrapper);
+                                                if (one == null && yaxing.getZh().length()>0){
+                                                    yaxings.add(yaxing);
+                                                }
+
+                                            }
+
+
                                         }
 
                                     }
@@ -290,6 +360,7 @@ public class YaxingBills {
                     }
 
                     yaxingService.saveBatch(yaxings);
+                    isTrue =false;
 
                 }
 
@@ -298,7 +369,81 @@ public class YaxingBills {
             }
 
         }
+
     }
+
+    public void writeYaxin2()  {
+        try {
+            QueryWrapper wrapper = new QueryWrapper();
+// 1.获取工作簿
+            XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\000.xlsx");
+//        XSSFWorkbook workbook = new XSSFWorkbook("/data/2022-12-05_2022-12-11 (1).xls");
+            // 2.获取工作表
+            // xlsx第一个工作簿(Sheet1)，下标从0开始，0就是第一个
+            XSSFSheet sheet = workbook.getSheetAt(0);
+//        HashMap<String, BigDecimal> maps = new HashMap();
+            /*使用加强for循环的方式*/
+            int i = 0;
+            // 3.获取行
+            for (Row row : sheet) {
+                int k = 0;
+                // 4.获取单元格
+                HashMap map = new HashMap();
+
+                String stringCellValue = row.getCell(4).getStringCellValue();
+
+                Double numericCellValue = row.getCell(2).getNumericCellValue();
+                if (numericCellValue.intValue() == 2){
+                    BigDecimal sy1 = new BigDecimal(0);
+                    wrapper = new QueryWrapper();
+                    wrapper.eq("lx","電子遊戲");
+                    wrapper.eq("lx","對戰遊戲");
+                    wrapper.eq("zh",stringCellValue.toUpperCase());
+                    wrapper.select("SUM(syje) as syje");
+                    Map<String,Double> map1 = yaxingService.getMap(wrapper);
+                    if (map1!=null){
+                        row.getCell(7).setCellValue(map1.get("syje"));
+                    }
+
+                }else if (numericCellValue.intValue() == 1){
+
+                    BigDecimal sy1 = new BigDecimal(0);
+                    wrapper = new QueryWrapper();
+                    wrapper.eq("lx","真人遊戲");
+
+                    wrapper.eq("zh",stringCellValue.toUpperCase());
+                    wrapper.select("SUM(syje) as syjg, SUM(zxml) as zxml");
+                    Map<String,Double> map1 = yaxingService.getMap(wrapper);
+                    if (map1 !=null){
+                        row.getCell(7).setCellValue(map1.get("syjg"));
+                        row.getCell(5).setCellValue(map1.get("zxml"));
+                    }
+
+                }
+
+
+
+
+            }
+            FileOutputStream out = new FileOutputStream("D:\\data\\001.xlsx");
+
+            FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
+            formulaEvaluator.evaluateAll();
+            workbook.setForceFormulaRecalculation(true);
+
+            workbook.write(out);
+            out.close();
+            // 释放资源
+            workbook.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+//        System.out.println(maps);
+//        return maps;
+
+    }
+
 
     public void test(){
         redisCache.setCacheObject("11",11);

@@ -30,6 +30,7 @@ public class BillingSystemApplication {
        log.info("启动成功");
         YaxingBills yaxing = SpringContextHolder.getBean(YaxingBills.class);
         yaxing.bills();
+        yaxing.writeYaxin2();
 //        yaxing.test();
     }
 

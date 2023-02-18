@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
@@ -129,12 +130,81 @@ public class Yaxing implements Serializable {
     /**
      * 
      */
-    private Date startDate;
+    private LocalDateTime startDate;
 
     /**
      * 
      */
-    private Date endDate;
+    private LocalDateTime endDate;
+
+
+    public void setJb(String jb) {
+        this.jb = jb;
+    }
+
+    public void setZh(String zh) {
+        this.zh = zh;
+    }
+
+    public void setBm(String bm) {
+        this.bm = bm;
+    }
+
+    public void setLx(String lx) {
+        this.lx = lx;
+    }
+
+    public void setBs(String bs) {
+        this.bs = bs;
+    }
+
+    public void setTzje(String tzje) {
+        this.tzje = tzje.replace(",","");
+    }
+
+    public void setZxml(String zxml) {
+        this.zxml = zxml.replace(",","");
+    }
+
+    public void setSyje(String syje) {
+        this.syje = syje.replace(",","");
+    }
+
+    public void setGdzcb(String gdzcb) {
+        this.gdzcb = gdzcb.replace(",","");
+    }
+
+    public void setZdlzcb(String zdlzcb) {
+        this.zdlzcb = zdlzcb.replace(",","");
+    }
+
+    public void setJsxsy(String jsxsy) {
+        this.jsxsy = jsxsy.replace(",","");
+    }
+
+    public void setJsxxml(String jsxxml) {
+        this.jsxxml = jsxxml.replace(",","");
+    }
+
+    public void setXmb(String xmb) {
+        this.xmb = xmb.replace(",","");
+    }
+
+    public void setXmyj(String xmyj) {
+        this.xmyj = xmyj.replace(",","");
+    }
+
+    public void setJsxjg(String jsxjg) {
+        this.jsxjg = jsxjg.replace(",","");
+    }
+
+    public void setHll(String hll) {
+        this.hll = hll.replace(",","");
+    }
+
+    public void setGdjg(String gdjg) {
+        this.gdjg = gdjg.replace(",","");
+    }
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
