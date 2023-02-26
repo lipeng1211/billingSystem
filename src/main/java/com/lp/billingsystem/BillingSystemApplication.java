@@ -35,7 +35,7 @@ public class BillingSystemApplication {
         yaxing.writeYaxin2();
 
         //皇冠登0
-//        huangguanBills.bills();
+        huangguanBills.bills();
         huangguanBills.write00();
 //        huangguanBills.bills01(1);
     }

@@ -121,9 +121,9 @@ public class YaxingBills {
                     $("#dateSpan2").click();
                     sleep(200);
                     //上周
-//                    $("option[value='lastWeek1']").click();
+                    $("option[value='lastWeek1']").click();
 //                    本周
-                    $("option[value='theWeek1']").click();
+//                    $("option[value='theWeek1']").click();
                     //上月
 //                    $("option[value='lastMonth1']").click();
                     //本月
