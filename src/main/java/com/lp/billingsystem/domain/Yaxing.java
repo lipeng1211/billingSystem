@@ -171,10 +171,12 @@ public class Yaxing implements Serializable {
     }
 
     public void setGdzcb(String gdzcb) {
+        if (gdzcb !=null)
         this.gdzcb = gdzcb.replace(",","");
     }
 
     public void setZdlzcb(String zdlzcb) {
+        if (zdlzcb !=null)
         this.zdlzcb = zdlzcb.replace(",","");
     }
 

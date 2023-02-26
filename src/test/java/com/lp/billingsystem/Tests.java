@@ -10,19 +10,21 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Tests {
 
     @Test
     public void test(){
-        LocalDateTime monday = DateUtil.getMonday();
-        LocalDateTime sunday = DateUtil.getSunday();
-        System.out.println(monday);
-        System.out.println(sunday);
+        Pattern pattern = Pattern.compile("^[A-Za-z0-9]+");
+        Matcher matcher = pattern.matcher("cXxb277777 (人民币)");
+        String str = "";
+        while (matcher.find()){
+            str += matcher.group();
+        }
+        System.out.println(str);
+//        System.out.println(group);
 
-        LocalDateTime localDateTime = DateUtil.lastMonday();
-        LocalDateTime localDateTime1 = DateUtil.lastSunday();
-        System.out.println(localDateTime);
-        System.out.println(localDateTime1);
     }
 }

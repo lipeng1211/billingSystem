@@ -47,7 +47,7 @@ import static java.awt.SystemColor.text;
 public class YaxingBills {
 
 
-
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     @Autowired(required=true)
     RedisCache redisCache;
     @Autowired(required=true)
@@ -61,6 +61,7 @@ public class YaxingBills {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.isNull("account_number");
         wrapper.eq("is_del",false);
+        wrapper.eq("type","1");
         List<User> list = userService.list(wrapper);
         for (User user: list) {
             Configuration.browserSize = "1280x800";
@@ -121,8 +122,12 @@ public class YaxingBills {
                     sleep(200);
                     //上周
                     $("option[value='lastWeek1']").click();
+//                    本周
+//                    $("option[value='theWeek1']").click();
                     //上月
 //                    $("option[value='lastMonth1']").click();
+                    //本月
+//                    $("option[value='theMonth1']").click();
                     sleep(5000);
                     //正常来说有两个body
                     //第一个body存在
@@ -254,6 +259,7 @@ public class YaxingBills {
                     QueryWrapper wrapper2 = new QueryWrapper();
                     wrapper2.eq("account_number",user.getUsername());
                     wrapper2.eq("is_del",false);
+                    wrapper2.eq("type","1");
                     List<User> list2 = userService.list(wrapper2);
                     HashMap map = new HashMap();
                     for (User user2:list2
@@ -345,6 +351,116 @@ public class YaxingBills {
                                     }
                                     map.put(user2.getUsername(),true);
 
+
+                                    QueryWrapper wrapper3 = new QueryWrapper();
+                                    wrapper3.eq("account_number",user2.getUsername());
+                                    wrapper3.eq("is_del",false);
+                                    wrapper3.eq("type","1");
+                                    List<User> list3 = userService.list(wrapper3);
+                                    HashMap map3 = new HashMap();
+                                    for (User user3:list3
+                                    ) {
+                                        //第二个body存在
+                                        if ($("table", 1).exists()){
+
+//                    取出内容 遍历每行
+                                            List<WebElement> tbody3 = $("table", 1).findElements(By.tagName("tbody"));
+                                            for (int j3 = 0; j3 < tbody3.size(); j3++) {
+
+                                                List<WebElement> td3 = tbody3.get(j3).findElements(By.tagName("td"));
+
+                                                String daima3 = td3.get(2).getText();
+
+                                                log.info("代码:::{}",td3.get(2).getText());
+
+                                                //需要进入明细
+                                                if (daima3.equals(user3.getUsername().toUpperCase()) || daima3.equals(user3.getUsername().toLowerCase())){
+                                                    if (map.get(user3.getUsername())!=null){
+                                                        continue;
+                                                    }
+                                                    td3.get(0).click();
+                                                    sleep(5000);
+
+
+                                                    //二层第二个body存在
+                                                    if ($("table", 1).exists()){
+                                                        //取出表头
+//                    .get(15).getText();
+                                                        List<WebElement> thead = $("table", 1).findElements(By.tagName("thead")).get(0).findElements(By.tagName("td"));
+                                                        for (int k = 1; k < thead.size(); k++) {
+                                                            String text = thead.get(k).getText();
+                                                            log.info("text::{}",text);
+                                                        }
+
+//                    取出内容 遍历每行
+                                                        List<WebElement> tbody2 = $("table", 1).findElements(By.tagName("tbody"));
+                                                        for (int k = 0; k < tbody2.size(); k++) {
+//                        String text = tbody.get(j).getText();
+                                                            td = tbody2.get(k).findElements(By.tagName("td"));
+                                                            if (td.size()>14){
+                                                                i1 = 1;
+                                                                yaxing = new Yaxing();
+                                                                yaxing.setJb(td.get(i1++).getText());
+                                                                yaxing.setZh(td.get(i1++).getText());
+                                                                yaxing.setBm(td.get(i1++).getText());
+                                                                yaxing.setLx(td.get(i1++).getText());
+                                                                yaxing.setBs(td.get(i1++).getText());
+                                                                yaxing.setTzje(td.get(i1++).getText());
+                                                                yaxing.setZxml(td.get(i1++).getText());
+                                                                yaxing.setSyje(td.get(i1++).getText());
+                                                                yaxing.setZdlzcb(td.get(i1++).getText());
+                                                                yaxing.setJsxsy(td.get(i1++).getText());
+                                                                yaxing.setJsxxml(td.get(i1++).getText());
+                                                                yaxing.setXmb(td.get(i1++).getText());
+                                                                yaxing.setXmyj(td.get(i1++).getText());
+                                                                yaxing.setJsxjg(td.get(i1++).getText());
+                                                                yaxing.setHll(td.get(i1++).getText());
+                                                                yaxing.setGdjg(td.get(i1++).getText());
+                                                                yaxing.setCreatedate(new Date());
+                                                                yaxing.setAccountNumber(user.getUsername());
+                                                                yaxing.setType("1");
+                                                                yaxing.setNumberOfLayers(2);
+//                                            yaxings.add(yaxing);
+                                                                yaxing.setStartDate(DateUtil.lastMonday());
+                                                                yaxing.setEndDate(DateUtil.lastSunday());
+
+
+
+                                                                queryWrapper =new QueryWrapper();
+                                                                queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                                                                queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                                                queryWrapper.eq("account_number",user.getUsername());
+                                                                queryWrapper.eq("type",1);
+                                                                queryWrapper.eq("zh",yaxing.getZh());
+                                                                queryWrapper.eq("jb",yaxing.getJb());
+                                                                queryWrapper.eq("lx",yaxing.getLx());
+                                                                Yaxing one = yaxingService.getOne(queryWrapper);
+                                                                if (one == null && yaxing.getZh().length()>0){
+                                                                    yaxings.add(yaxing);
+                                                                }
+
+                                                            }
+
+
+                                                        }
+
+                                                    }
+                                                    map.put(user3.getUsername(),true);
+
+                                                    back();
+                                                    sleep(3000);
+                                                    break;
+                                                }
+
+
+                                            }
+
+
+                                        }
+
+
+                                    }
+
                                     back();
                                     sleep(3000);
                                     break;
@@ -355,6 +471,7 @@ public class YaxingBills {
 
 
                         }
+
 
 
                     }
@@ -374,7 +491,7 @@ public class YaxingBills {
 
     public void writeYaxin2()  {
         try {
-            QueryWrapper wrapper = new QueryWrapper();
+            QueryWrapper<Yaxing> wrapper = new QueryWrapper();
 // 1.获取工作簿
             XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\000.xlsx");
 //        XSSFWorkbook workbook = new XSSFWorkbook("/data/2022-12-05_2022-12-11 (1).xls");
@@ -396,13 +513,16 @@ public class YaxingBills {
                 if (numericCellValue.intValue() == 2){
                     BigDecimal sy1 = new BigDecimal(0);
                     wrapper = new QueryWrapper();
-                    wrapper.eq("lx","電子遊戲");
-                    wrapper.eq("lx","對戰遊戲");
+                    wrapper.and(w->w.eq("lx","電子遊戲").or().eq("lx","對戰遊戲"));
+
+
                     wrapper.eq("zh",stringCellValue.toUpperCase());
+                    wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                     wrapper.select("SUM(syje) as syje");
-                    Map<String,Double> map1 = yaxingService.getMap(wrapper);
+                    Map<String,Object> map1 = yaxingService.getMap(wrapper);
                     if (map1!=null){
-                        row.getCell(7).setCellValue(map1.get("syje"));
+                        row.getCell(7).setCellValue(Double.valueOf(map1.get("syje").toString()));
                     }
 
                 }else if (numericCellValue.intValue() == 1){
@@ -412,11 +532,13 @@ public class YaxingBills {
                     wrapper.eq("lx","真人遊戲");
 
                     wrapper.eq("zh",stringCellValue.toUpperCase());
+                    wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                     wrapper.select("SUM(syje) as syjg, SUM(zxml) as zxml");
-                    Map<String,Double> map1 = yaxingService.getMap(wrapper);
+                    Map<String,Object> map1 = yaxingService.getMap(wrapper);
                     if (map1 !=null){
-                        row.getCell(7).setCellValue(map1.get("syjg"));
-                        row.getCell(5).setCellValue(map1.get("zxml"));
+                        row.getCell(7).setCellValue(Double.valueOf(map1.get("syjg").toString()));
+                        row.getCell(5).setCellValue(Double.valueOf(map1.get("zxml").toString()));
                     }
 
                 }

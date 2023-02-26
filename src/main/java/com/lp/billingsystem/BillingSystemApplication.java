@@ -1,5 +1,6 @@
 package com.lp.billingsystem;
 
+import com.lp.billingsystem.bills.HuangguanBills;
 import com.lp.billingsystem.bills.YaxingBills;
 import com.lp.billingsystem.config.spring.SpringContextHolder;
 import com.lp.billingsystem.service.UserService;
@@ -29,9 +30,14 @@ public class BillingSystemApplication {
         SpringApplication.run(BillingSystemApplication.class, args);
        log.info("启动成功");
         YaxingBills yaxing = SpringContextHolder.getBean(YaxingBills.class);
-        yaxing.bills();
-        yaxing.writeYaxin2();
-//        yaxing.test();
+        HuangguanBills huangguanBills = SpringContextHolder.getBean(HuangguanBills.class);
+//        yaxing.bills();
+//        yaxing.writeYaxin2();
+
+        //皇冠登0
+//        huangguanBills.bills();
+        huangguanBills.write00();
+//        huangguanBills.bills01(1);
     }
 
 

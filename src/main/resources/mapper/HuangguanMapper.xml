@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.billingsystem.mapper.HuangguanMapper">
+
+    <resultMap id="BaseResultMap" type="com.lp.billingsystem.domain.Huangguan">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="zh" column="zh" jdbcType="VARCHAR"/>
+            <result property="gd" column="gd" jdbcType="VARCHAR"/>
+            <result property="gdjg" column="gdjg" jdbcType="VARCHAR"/>
+            <result property="gdshl" column="gdshl" jdbcType="VARCHAR"/>
+            <result property="zdljg" column="zdljg" jdbcType="VARCHAR"/>
+            <result property="zdlshl" column="zdlshl" jdbcType="VARCHAR"/>
+            <result property="zdlbfb" column="zdlbfb" jdbcType="VARCHAR"/>
+            <result property="gdzc" column="gdzc" jdbcType="VARCHAR"/>
+            <result property="gdbfb" column="gdbfb" jdbcType="VARCHAR"/>
+            <result property="dls" column="dls" jdbcType="VARCHAR"/>
+            <result property="dlszc" column="dlszc" jdbcType="VARCHAR"/>
+            <result property="dlsjg" column="dlsjg" jdbcType="VARCHAR"/>
+            <result property="dlsshl" column="dlsshl" jdbcType="VARCHAR"/>
+            <result property="zdlzc" column="zdlzc" jdbcType="VARCHAR"/>
+            <result property="createdate" column="createdate" jdbcType="TIMESTAMP"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="accountNumber" column="account_number" jdbcType="VARCHAR"/>
+            <result property="numberOfLayers" column="number_of_layers" jdbcType="INTEGER"/>
+            <result property="startDate" column="start_date" jdbcType="TIMESTAMP"/>
+            <result property="endDate" column="end_date" jdbcType="TIMESTAMP"/>
+            <result property="bs" column="bs" jdbcType="VARCHAR"/>
+            <result property="xzje" column="xzje" jdbcType="VARCHAR"/>
+            <result property="yxje" column="yxje" jdbcType="VARCHAR"/>
+            <result property="hy" column="hy" jdbcType="VARCHAR"/>
+            <result property="hybz" column="hybz" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,zh,gd,
+        gdjg,gdshl,zdljg,
+        zdlshl,zdlbfb,gdzc,
+        gdbfb,dls,dlszc,
+        dlsjg,dlsshl,zdlzc,
+        createdate,type,account_number,
+        number_of_layers,start_date,end_date,
+        bs,xzje,yxje,
+        hy,hybz
+    </sql>
+</mapper>
