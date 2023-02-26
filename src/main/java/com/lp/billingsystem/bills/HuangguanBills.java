@@ -105,7 +105,12 @@ public class HuangguanBills {
                 Wait().until(ExpectedConditions.elementToBeClickable(By.id("date_div")));
                 $("#date_div" ).click();
                 Thread.sleep(500);
+
+                //上星期
                 $("#date_lw" ).click();
+
+                //本周
+//                $("#date_tw" ).click();
                 Thread.sleep(500);
                 $("#search_btn" ).click();
 
@@ -224,7 +229,7 @@ public class HuangguanBills {
                 isTrue = true;
                 int num = 0;
                 while (isTrue){
-                    sleep(4000);
+
 //                    executeJavaScript("document.getElementById('footer_show').scrollIntoView()");
 //                    sleep(1000);
 //                    executeJavaScript("document.getElementById('footer_show').scrollIntoView()");
@@ -234,6 +239,7 @@ public class HuangguanBills {
 //                    executeJavaScript("document.getElementById('footer_show').scrollIntoView()");
 //                    sleep(1000);
                     Wait().until(ExpectedConditions.elementToBeClickable(By.id("div_show")));
+                    sleep(3000);
                     //开始爬取数据
                     SelenideElement selenideElement = $("#div_show");
 

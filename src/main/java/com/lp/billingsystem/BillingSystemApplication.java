@@ -32,7 +32,7 @@ public class BillingSystemApplication {
         YaxingBills yaxing = SpringContextHolder.getBean(YaxingBills.class);
         HuangguanBills huangguanBills = SpringContextHolder.getBean(HuangguanBills.class);
 //        yaxing.bills();
-//        yaxing.writeYaxin2();
+        yaxing.writeYaxin2();
 
         //皇冠登0
 //        huangguanBills.bills();
