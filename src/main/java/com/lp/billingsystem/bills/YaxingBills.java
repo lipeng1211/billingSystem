@@ -121,9 +121,9 @@ public class YaxingBills {
                     $("#dateSpan2").click();
                     sleep(200);
                     //上周
-                    $("option[value='lastWeek1']").click();
+//                    $("option[value='lastWeek1']").click();
 //                    本周
-//                    $("option[value='theWeek1']").click();
+                    $("option[value='theWeek1']").click();
                     //上月
 //                    $("option[value='lastMonth1']").click();
                     //本月
@@ -182,7 +182,8 @@ public class YaxingBills {
                                 queryWrapper.eq("lx",yaxing.getLx());
                                 Yaxing one = yaxingService.getOne(queryWrapper);
                                 if (one == null && yaxing.getZh().length()>0){
-                                    yaxings.add(yaxing);
+//                                    yaxings.add(yaxing);
+                                    yaxingService.save(yaxing);
                                 }
                                 log.info("yaxing::{}",yaxing);
                             }
@@ -232,7 +233,7 @@ public class YaxingBills {
                                 yaxing.setEndDate(DateUtil.lastSunday());
 
 
-
+                                log.info("yaxing::::::{}",yaxing);
                                 queryWrapper =new QueryWrapper();
                                 queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
                                 queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
@@ -244,13 +245,14 @@ public class YaxingBills {
                                 queryWrapper.eq("lx",yaxing.getLx());
                                 Yaxing one = yaxingService.getOne(queryWrapper);
                                 if (one == null && yaxing.getZh().length()>0){
-                                    yaxings.add(yaxing);
+//                                    yaxings.add(yaxing);
+                                    yaxingService.save(yaxing);
                                 }
 
 
                             }
 
-//                            yaxings.add(yaxing);
+
 
                         }
 
@@ -324,7 +326,7 @@ public class YaxingBills {
                                                 yaxing.setAccountNumber(user.getUsername());
                                                 yaxing.setType("1");
                                                 yaxing.setNumberOfLayers(2);
-//                                            yaxings.add(yaxing);
+
                                                 yaxing.setStartDate(DateUtil.lastMonday());
                                                 yaxing.setEndDate(DateUtil.lastSunday());
 
@@ -340,7 +342,8 @@ public class YaxingBills {
                                                 queryWrapper.eq("lx",yaxing.getLx());
                                                 Yaxing one = yaxingService.getOne(queryWrapper);
                                                 if (one == null && yaxing.getZh().length()>0){
-                                                    yaxings.add(yaxing);
+                                                    yaxingService.save(yaxing);
+//                                                    yaxings.add(yaxing);
                                                 }
 
                                             }
@@ -420,7 +423,7 @@ public class YaxingBills {
                                                                 yaxing.setAccountNumber(user.getUsername());
                                                                 yaxing.setType("1");
                                                                 yaxing.setNumberOfLayers(2);
-//                                            yaxings.add(yaxing);
+
                                                                 yaxing.setStartDate(DateUtil.lastMonday());
                                                                 yaxing.setEndDate(DateUtil.lastSunday());
 
@@ -436,7 +439,8 @@ public class YaxingBills {
                                                                 queryWrapper.eq("lx",yaxing.getLx());
                                                                 Yaxing one = yaxingService.getOne(queryWrapper);
                                                                 if (one == null && yaxing.getZh().length()>0){
-                                                                    yaxings.add(yaxing);
+                                                                    yaxingService.save(yaxing);
+//                                                                    yaxings.add(yaxing);
                                                                 }
 
                                                             }
@@ -476,7 +480,7 @@ public class YaxingBills {
 
                     }
 
-                    yaxingService.saveBatch(yaxings);
+//                    yaxingService.saveBatch(yaxings);
                     isTrue =false;
 
                 }

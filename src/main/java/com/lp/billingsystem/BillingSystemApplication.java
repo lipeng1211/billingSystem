@@ -31,12 +31,13 @@ public class BillingSystemApplication {
        log.info("启动成功");
         YaxingBills yaxing = SpringContextHolder.getBean(YaxingBills.class);
         HuangguanBills huangguanBills = SpringContextHolder.getBean(HuangguanBills.class);
-//        yaxing.bills();
-//        yaxing.writeYaxin2();
 
-        //皇冠登0
-//        huangguanBills.bills();
+
+//        yaxing.bills();
+        huangguanBills.bills();
+        yaxing.writeYaxin2();
         huangguanBills.write00();
+        System.out.println("运行完毕");
 //        huangguanBills.bills01(1);
     }
 

@@ -62,7 +62,7 @@ public class HuangguanBills {
         for (User user: list
              ) {
             Huangguan huangguan = new Huangguan();
-            ArrayList<Huangguan> huangguans = new ArrayList<>();
+//            ArrayList<Huangguan> huangguans = new ArrayList<>();
             try {
                 Configuration.browserSize = "1280x800";
                 SelenideLogger.addListener("allure", new AllureSelenide());
@@ -105,7 +105,12 @@ public class HuangguanBills {
                 Wait().until(ExpectedConditions.elementToBeClickable(By.id("date_div")));
                 $("#date_div" ).click();
                 Thread.sleep(500);
-                $("#date_lw" ).click();
+
+                //上星期
+//                $("#date_lw" ).click();
+
+                //本周
+                $("#date_tw" ).click();
                 Thread.sleep(500);
                 $("#search_btn" ).click();
 
@@ -150,12 +155,13 @@ public class HuangguanBills {
                     queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
                     queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                     queryWrapper.eq("account_number",user.getUsername());
-                    queryWrapper.eq("type",2);
+                    queryWrapper.eq("type","2");
                     queryWrapper.eq("zh",huangguan.getZh());
 
                     if (huangguanService.getOne(queryWrapper) == null){
                         if (huangguan.getZh() !=null)
-                        huangguans.add(huangguan);
+                        huangguanService.save(huangguan);
+
                     }
 
 
@@ -198,16 +204,16 @@ public class HuangguanBills {
                         queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
                         queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                         queryWrapper.eq("account_number",user.getUsername());
-                        queryWrapper.eq("type",2);
+                        queryWrapper.eq("type","2");
                         queryWrapper.eq("zh",huangguan.getZh());
 
                         if (huangguanService.getOne(queryWrapper) == null){
                             if (huangguan.getZh() !=null)
-                            huangguans.add(huangguan);
+                            huangguanService.save(huangguan);
                         }
 
 
-//                        huangguans.add(huangguan);
+//                        huangguanService.save(huangguan);
 //                    RedisOps.set(RedisKey.HG0_DAILI+word_link.getText(), JSONObject.toJSONString(map));
                         isTrue = false;
                     }
@@ -224,7 +230,7 @@ public class HuangguanBills {
                 isTrue = true;
                 int num = 0;
                 while (isTrue){
-                    sleep(4000);
+
 //                    executeJavaScript("document.getElementById('footer_show').scrollIntoView()");
 //                    sleep(1000);
 //                    executeJavaScript("document.getElementById('footer_show').scrollIntoView()");
@@ -234,6 +240,7 @@ public class HuangguanBills {
 //                    executeJavaScript("document.getElementById('footer_show').scrollIntoView()");
 //                    sleep(1000);
                     Wait().until(ExpectedConditions.elementToBeClickable(By.id("div_show")));
+                    sleep(3000);
                     //开始爬取数据
                     SelenideElement selenideElement = $("#div_show");
 
@@ -255,7 +262,7 @@ public class HuangguanBills {
                     log.info("这是啥：：：：：：：：：",map);
 //                    huangguan.setGd();
 
-//                    huangguans.add(huangguan);
+//                    huangguanService.save(huangguan);
 //                RedisOps.set(RedisKey.HG0_GUDONG+"YS301ABC", JSONObject.toJSONString(map));
 
                     //            SelenideElement selenideElement2 = selenideElement.$(".re_bodybg01G");
@@ -339,16 +346,16 @@ public class HuangguanBills {
                                 queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
                                 queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                                 queryWrapper.eq("account_number",user.getUsername());
-                                queryWrapper.eq("type",2);
+                                queryWrapper.eq("type","2");
                                 queryWrapper.eq("zh",huangguan.getZh());
 
                                 if (huangguanService.getOne(queryWrapper) == null){
                                     if (huangguan.getZh() !=null)
-                                    huangguans.add(huangguan);
+                                    huangguanService.save(huangguan);
                                 }
 
 
-//                                huangguans.add(huangguan);
+//                                huangguanService.save(huangguan);
 
 //                    RedisOps.set(RedisKey.HG0_DAILI+word_link.getText(), JSONObject.toJSONString(map));
 //                            isTrue = false;
@@ -365,7 +372,7 @@ public class HuangguanBills {
                                 $("#footer_show").scrollIntoView(false);
                                 sleep(2000);
                                 $("#re_body").scrollIntoView(true);
-                                sleep(1000);
+                                sleep(2000);
                                 SelenideElement selenideElement3 = $("#div_show");
                                 List<WebElement> re_bodybg01G3 = selenideElement3.findElements(By.className("re_bodybg01G"));
 //                        System.out.println("re_bodybg01G = " + re_bodybg01G.size());
@@ -435,21 +442,21 @@ public class HuangguanBills {
                                             queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
                                             queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                                             queryWrapper.eq("account_number",user.getUsername());
-                                            queryWrapper.eq("type",2);
+                                            queryWrapper.eq("type","2");
                                             queryWrapper.eq("zh",huangguan.getZh());
 
                                             if (huangguanService.getOne(queryWrapper) == null){
                                                 if (huangguan.getZh() !=null)
-                                                huangguans.add(huangguan);
+                                                huangguanService.save(huangguan);
                                             }
 
                                         }
                                         Boolean isTrue3 = Boolean.TRUE;
                                         int num44 = 0;
                                         while (isTrue3){
-                                            sleep(3000);
-                                            Wait().until(ExpectedConditions.elementToBeClickable(By.id("div_show")));
 
+                                            Wait().until(ExpectedConditions.elementToBeClickable(By.id("div_show")));
+                                            sleep(3000);
                                             SelenideElement selenideElement44 = $("#div_show");
                                             List<WebElement> re_bodybg01G44 = selenideElement44.findElements(By.className("re_bodybg01G"));
 //                        System.out.println("re_bodybg01G = " + re_bodybg01G.size());
@@ -473,7 +480,7 @@ public class HuangguanBills {
                                                 if (user4 !=null && !arrayList.contains(text)) {
                                                     arrayList.add(text);
                                                     webElement.findElement(By.className("re_left_br")).findElement(By.name("user_btn")).click();
-                                                    sleep(2000);
+
 //                                                    executeJavaScript("document.getElementById('footer_show').scrollIntoView()");
 //                                                    sleep(1000);
 //                                                    executeJavaScript("document.getElementById('footer_show').scrollIntoView()");
@@ -483,7 +490,7 @@ public class HuangguanBills {
 //                                                    executeJavaScript("document.getElementById('footer_show').scrollIntoView()");
 //                                                    sleep(1000);
                                                     Wait().until(ExpectedConditions.elementToBeClickable(By.id("div_show")));
-
+                                                    sleep(2000);
                                                     SelenideElement selenideElement55 = $("#div_show");
                                                     List<WebElement> re_bodybg01G55 = selenideElement55.findElements(By.className("re_bodybg01G"));
 //                        System.out.println("re_bodybg01G = " + re_bodybg01G.size());
@@ -503,17 +510,25 @@ public class HuangguanBills {
                                                         huangguan.setDlszc(elements.get(k++).getText());
                                                         huangguan.setDlsjg(elements.get(k++).getText());
 
+                                                        huangguan.setCreatedate(new Date());
+                                                        huangguan.setAccountNumber(user.getUsername());
+                                                        huangguan.setNumberOfLayers(3);
+                                                        huangguan.setType("2");
+                                                        huangguan.setStartDate(DateUtil.lastMonday());
+                                                        huangguan.setEndDate(DateUtil.lastSunday());
+
+
 //                                                        elements.get(num++).getText();
                                                         queryWrapper =new QueryWrapper();
                                                         queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
                                                         queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                                                         queryWrapper.eq("account_number",user.getUsername());
-                                                        queryWrapper.eq("type",2);
+                                                        queryWrapper.eq("type","2");
                                                         queryWrapper.eq("zh",huangguan.getZh());
 
                                                         if (huangguanService.getOne(queryWrapper) == null){
                                                             if (huangguan.getZh() !=null)
-                                                            huangguans.add(huangguan);
+                                                            huangguanService.save(huangguan);
                                                         }
 
 
@@ -578,7 +593,6 @@ public class HuangguanBills {
                     System.out.println("========================================================================");
 
                 }
-                huangguanService.saveBatch(huangguans);
 
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -651,9 +665,9 @@ public class HuangguanBills {
                 }
 
 
-                if (row.getCell(6) !=null && row.getCell(6).getCellType().getCode() == 1){
-                    String trim = row.getCell(6).getStringCellValue().trim();
-                    log.info("右边的代码：：：：：{}",row.getCell(6).getStringCellValue());
+                if (row.getCell(7) !=null && row.getCell(7).getCellType().getCode() == 1){
+                    String trim = row.getCell(7).getStringCellValue().trim();
+                    log.info("右边的代码：：：：：{}",row.getCell(7).getStringCellValue());
                     wrapper1 = new QueryWrapper();
                     wrapper1.eq("zh",trim);
                     HuangguanDaima huangguanDaima = huangguanDaimaService.getOne(wrapper1);
@@ -667,20 +681,20 @@ public class HuangguanBills {
                             switch (huangguanDaima.getState()){
 //                            股东
                                 case 1:
-                                    row.getCell(7).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(8).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                                 //总代理
                                 case 2:
-                                    row.getCell(7).setCellValue(new BigDecimal(huangguan.getZdljg()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(8).setCellValue(new BigDecimal(huangguan.getZdljg()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                                 //会员
                                 case 3:
-                                    row.getCell(7).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(8).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                             }
 
                         }else {
-                            row.getCell(7).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                            row.getCell(8).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
                         }
 
                     }
