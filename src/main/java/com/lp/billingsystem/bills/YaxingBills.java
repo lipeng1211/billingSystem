@@ -121,9 +121,9 @@ public class YaxingBills {
                     $("#dateSpan2").click();
                     sleep(200);
                     //上周
-//                    $("option[value='lastWeek1']").click();
+                    $("option[value='lastWeek1']").click();
 //                    本周
-                    $("option[value='theWeek1']").click();
+//                    $("option[value='theWeek1']").click();
                     //上月
 //                    $("option[value='lastMonth1']").click();
                     //本月
@@ -497,7 +497,7 @@ public class YaxingBills {
         try {
             QueryWrapper<Yaxing> wrapper = new QueryWrapper();
 // 1.获取工作簿
-            XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\000.xlsx");
+            XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\xinya\\000.xlsx");
 //        XSSFWorkbook workbook = new XSSFWorkbook("/data/2022-12-05_2022-12-11 (1).xls");
             // 2.获取工作表
             // xlsx第一个工作簿(Sheet1)，下标从0开始，0就是第一个
@@ -551,7 +551,7 @@ public class YaxingBills {
 
 
             }
-            FileOutputStream out = new FileOutputStream("D:\\data\\001.xlsx");
+            FileOutputStream out = new FileOutputStream("D:\\data\\xinya\\001.xlsx");
 
             FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
             formulaEvaluator.evaluateAll();
