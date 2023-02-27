@@ -107,10 +107,10 @@ public class HuangguanBills {
                 Thread.sleep(500);
 
                 //上星期
-//                $("#date_lw" ).click();
+                $("#date_lw" ).click();
 
                 //本周
-                $("#date_tw" ).click();
+//                $("#date_tw" ).click();
                 Thread.sleep(500);
                 $("#search_btn" ).click();
 
@@ -611,7 +611,7 @@ public class HuangguanBills {
             QueryWrapper<Huangguan> wrapper = new QueryWrapper();
             QueryWrapper<HuangguanDaima> wrapper2 = new QueryWrapper();
 // 1.获取工作簿
-            XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\000.xlsx");
+            XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\xinya\\000.xlsx");
 //        XSSFWorkbook workbook = new XSSFWorkbook("/data/2022-12-05_2022-12-11 (1).xls");
             // 2.获取工作表
             // xlsx第一个工作簿(Sheet1)，下标从0开始，0就是第一个
@@ -704,7 +704,7 @@ public class HuangguanBills {
 
 
             }
-            FileOutputStream out = new FileOutputStream("D:\\data\\001.xlsx");
+            FileOutputStream out = new FileOutputStream("D:\\data\\xinya\\001.xlsx");
 
             FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
             formulaEvaluator.evaluateAll();
