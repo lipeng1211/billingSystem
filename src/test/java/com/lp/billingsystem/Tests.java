@@ -27,4 +27,15 @@ public class Tests {
 //        System.out.println(group);
 
     }
+    @Test
+    public void test1(){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime localDateTime = now.minusMonths(1);
+        String startDate = localDateTime.format(dateTimeFormatter);
+        String endDate = now.format(dateTimeFormatter);
+        System.out.println(startDate);
+        System.out.println(endDate);
+
+    }
 }

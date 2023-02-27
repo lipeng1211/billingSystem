@@ -1,33 +1,26 @@
 package com.lp.billingsystem.bills;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Driver;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.lp.billingsystem.config.redis.RedisCache;
 import com.lp.billingsystem.domain.Huangguan;
 import com.lp.billingsystem.domain.HuangguanDaima;
 import com.lp.billingsystem.domain.User;
-import com.lp.billingsystem.domain.Yaxing;
 import com.lp.billingsystem.service.HuangguanDaimaService;
 import com.lp.billingsystem.service.HuangguanService;
 import com.lp.billingsystem.service.UserService;
 import com.lp.billingsystem.util.DateUtil;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,13 +28,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import static com.codeborne.selenide.Selenide.*;
 
 @Log4j2
 @Component
-public class HuangguanBills {
+public class HuangguanBills_yuetui {
 
 
     @Autowired(required=true)
@@ -59,7 +55,7 @@ public class HuangguanBills {
         List<User> list = userService.list(wrapper);
 
         QueryWrapper queryWrapper = new QueryWrapper();
-
+        
         for (User user: list
              ) {
             Huangguan huangguan = new Huangguan();
@@ -113,7 +109,7 @@ public class HuangguanBills {
                 //本周
 //                $("#date_tw" ).click();
 
-                //上期
+                //本期
                 $("#date_tp" ).click();
                 Thread.sleep(500);
                 $("#search_btn" ).click();
@@ -152,12 +148,12 @@ public class HuangguanBills {
                     huangguan.setAccountNumber(user.getUsername());
                     huangguan.setNumberOfLayers(1);
                     huangguan.setType("2");
-                    huangguan.setStartDate(DateUtil.lastMonday());
-                    huangguan.setEndDate(DateUtil.lastSunday());
+                    huangguan.setStartDate(DateUtil.lastMondayOfLastMonth());
+                    huangguan.setEndDate(DateUtil.lastSundayLastMonth());
 
                     queryWrapper =new QueryWrapper();
-                    queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                    queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                    queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                    queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                     queryWrapper.eq("account_number",user.getUsername());
                     queryWrapper.eq("type","2");
                     queryWrapper.eq("zh",huangguan.getZh());
@@ -200,13 +196,13 @@ public class HuangguanBills {
                         huangguan.setAccountNumber(user.getUsername());
                         huangguan.setNumberOfLayers(1);
                         huangguan.setType("2");
-                        huangguan.setStartDate(DateUtil.lastMonday());
-                        huangguan.setEndDate(DateUtil.lastSunday());
+                        huangguan.setStartDate(DateUtil.lastMondayOfLastMonth());
+                        huangguan.setEndDate(DateUtil.lastSundayLastMonth());
 
 
                         queryWrapper =new QueryWrapper();
-                        queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                        queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                        queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                        queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                         queryWrapper.eq("account_number",user.getUsername());
                         queryWrapper.eq("type","2");
                         queryWrapper.eq("zh",huangguan.getZh());
@@ -343,12 +339,12 @@ public class HuangguanBills {
                                 huangguan.setAccountNumber(user.getUsername());
                                 huangguan.setNumberOfLayers(2);
                                 huangguan.setType("2");
-                                huangguan.setStartDate(DateUtil.lastMonday());
-                                huangguan.setEndDate(DateUtil.lastSunday());
+                                huangguan.setStartDate(DateUtil.lastMondayOfLastMonth());
+                                huangguan.setEndDate(DateUtil.lastSundayLastMonth());
 
                                 queryWrapper =new QueryWrapper();
-                                queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                                queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                                queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                                 queryWrapper.eq("account_number",user.getUsername());
                                 queryWrapper.eq("type","2");
                                 queryWrapper.eq("zh",huangguan.getZh());
@@ -439,12 +435,12 @@ public class HuangguanBills {
                                             huangguan.setAccountNumber(user.getUsername());
                                             huangguan.setNumberOfLayers(3);
                                             huangguan.setType("2");
-                                            huangguan.setStartDate(DateUtil.lastMonday());
-                                            huangguan.setEndDate(DateUtil.lastSunday());
+                                            huangguan.setStartDate(DateUtil.lastMondayOfLastMonth());
+                                            huangguan.setEndDate(DateUtil.lastSundayLastMonth());
 
                                             queryWrapper =new QueryWrapper();
-                                            queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                                            queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                            queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                                            queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                                             queryWrapper.eq("account_number",user.getUsername());
                                             queryWrapper.eq("type","2");
                                             queryWrapper.eq("zh",huangguan.getZh());
@@ -518,14 +514,14 @@ public class HuangguanBills {
                                                         huangguan.setAccountNumber(user.getUsername());
                                                         huangguan.setNumberOfLayers(3);
                                                         huangguan.setType("2");
-                                                        huangguan.setStartDate(DateUtil.lastMonday());
-                                                        huangguan.setEndDate(DateUtil.lastSunday());
+                                                        huangguan.setStartDate(DateUtil.lastMondayOfLastMonth());
+                                                        huangguan.setEndDate(DateUtil.lastSundayLastMonth());
 
 
 //                                                        elements.get(num++).getText();
                                                         queryWrapper =new QueryWrapper();
-                                                        queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                                                        queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                                        queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                                                        queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                                                         queryWrapper.eq("account_number",user.getUsername());
                                                         queryWrapper.eq("type","2");
                                                         queryWrapper.eq("zh",huangguan.getZh());
@@ -619,7 +615,7 @@ public class HuangguanBills {
 //        XSSFWorkbook workbook = new XSSFWorkbook("/data/2022-12-05_2022-12-11 (1).xls");
             // 2.获取工作表
             // xlsx第一个工作簿(Sheet1)，下标从0开始，0就是第一个
-            XSSFSheet sheet = workbook.getSheetAt(2);
+            XSSFSheet sheet = workbook.getSheetAt(10);
 //        HashMap<String, BigDecimal> maps = new HashMap();
             /*使用加强for循环的方式*/
             int i = 0;
@@ -630,15 +626,18 @@ public class HuangguanBills {
                 // 4.获取单元格
                 HashMap map = new HashMap();
 
-                if (row.getCell(1) !=null && row.getCell(1).getCellType().getCode() == 1){
-                    String trim = row.getCell(1).getStringCellValue().trim();
+                if (row.getCell(2) !=null && row.getCell(2).getCellType().getCode() == 1){
+                    String trim = row.getCell(2).getStringCellValue().trim();
                     log.info("左边的代码：：：：：{}",trim);
                     wrapper1 = new QueryWrapper();
                     wrapper1.eq("zh",trim);
+
                     HuangguanDaima huangguanDaima = huangguanDaimaService.getOne(wrapper1);
 
                     wrapper = new QueryWrapper();
                     wrapper.eq("zh",trim);
+                    wrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                     Huangguan huangguan = huangguanService.getOne(wrapper);
                     if (huangguan !=null){
                         if (huangguanDaima !=null){
@@ -646,20 +645,20 @@ public class HuangguanBills {
                             switch (huangguanDaima.getState()){
 //                            股东
                                 case 1:
-                                    row.getCell(2).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                                     //总代理
                                 case 2:
-                                    row.getCell(2).setCellValue(new BigDecimal(huangguan.getZdljg()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getZdljg()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                                     //会员
                                 case 3:
-                                    row.getCell(2).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                             }
 
                         }else {
-                            row.getCell(2).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                            row.getCell(3).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
                         }
 
                     }
@@ -669,15 +668,17 @@ public class HuangguanBills {
                 }
 
 
-                if (row.getCell(6) !=null && row.getCell(6).getCellType().getCode() == 1){
-                    String trim = row.getCell(6).getStringCellValue().trim();
-                    log.info("右边的代码：：：：：{}",row.getCell(6).getStringCellValue());
+                if (row.getCell(10) !=null && row.getCell(10).getCellType().getCode() == 1){
+                    String trim = row.getCell(10).getStringCellValue().trim();
+                    log.info("右边的代码：：：：：{}",row.getCell(10).getStringCellValue());
                     wrapper1 = new QueryWrapper();
                     wrapper1.eq("zh",trim);
                     HuangguanDaima huangguanDaima = huangguanDaimaService.getOne(wrapper1);
 
                     wrapper = new QueryWrapper();
                     wrapper.eq("zh",trim);
+                    wrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                     Huangguan huangguan = huangguanService.getOne(wrapper);
                     if (huangguan !=null){
                         if (huangguanDaima !=null){
@@ -685,20 +686,20 @@ public class HuangguanBills {
                             switch (huangguanDaima.getState()){
 //                            股东
                                 case 1:
-                                    row.getCell(7).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                                 //总代理
                                 case 2:
-                                    row.getCell(7).setCellValue(new BigDecimal(huangguan.getZdljg()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getZdljg()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                                 //会员
                                 case 3:
-                                    row.getCell(7).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                             }
 
                         }else {
-                            row.getCell(7).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                            row.getCell(11).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
                         }
 
                     }
@@ -729,7 +730,7 @@ public class HuangguanBills {
 
 
     public static void main(String[] args) {
-        HuangguanBills huangguanBills = new HuangguanBills();
+        HuangguanBills_yuetui huangguanBills = new HuangguanBills_yuetui();
         huangguanBills.write00();
     }
 }

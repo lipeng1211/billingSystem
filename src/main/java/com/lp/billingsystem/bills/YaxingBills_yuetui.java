@@ -1,13 +1,9 @@
 package com.lp.billingsystem.bills;
 
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.lp.billingsystem.config.redis.RedisCache;
-import com.lp.billingsystem.config.redis.RedisKey;
 import com.lp.billingsystem.domain.User;
 import com.lp.billingsystem.domain.Yaxing;
 import com.lp.billingsystem.service.UserService;
@@ -15,19 +11,14 @@ import com.lp.billingsystem.service.YaxingService;
 import com.lp.billingsystem.util.DateUtil;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.extern.log4j.Log4j2;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.checkerframework.checker.units.qual.A;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -44,7 +35,7 @@ import static java.awt.SystemColor.text;
 
 @Component
 @Log4j2
-public class YaxingBills {
+public class YaxingBills_yuetui {
 
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -64,7 +55,7 @@ public class YaxingBills {
         wrapper.eq("type","1");
         List<User> list = userService.list(wrapper);
 
-
+        
         for (User user: list) {
             Configuration.browserSize = "1280x800";
             SelenideLogger.addListener("allure", new AllureSelenide());
@@ -99,10 +90,10 @@ public class YaxingBills {
             Boolean isTrue = true;
 //        Jedis jedis = RedisConnection.getJedis();
             QueryWrapper queryWrapper = new QueryWrapper();
-            queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-            queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+            queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+            queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
             queryWrapper.eq("account_number",user.getAccountNumber());
-            queryWrapper.eq("type","1");
+            queryWrapper.eq("type",1);
             ArrayList<Yaxing> yaxings = new ArrayList<>();
             Yaxing yaxing = new Yaxing();
             int i1 = 0;
@@ -123,13 +114,13 @@ public class YaxingBills {
                     $("#dateSpan2").click();
                     sleep(200);
                     //上周
-                    $("option[value='lastWeek1']").click();
+//                    $("option[value='lastWeek1']").click();
 //                    本周
 //                    $("option[value='theWeek1']").click();
                     //上月
 //                    $("option[value='lastMonth1']").click();
                     //本月
-//                    $("option[value='theMonth1']").click();
+                    $("option[value='theMonth1']").click();
                     sleep(5000);
                     //正常来说有两个body
                     //第一个body存在
@@ -169,16 +160,16 @@ public class YaxingBills {
                                 yaxing.setGdjg(td.get(i1++).getText());
                                 yaxing.setAccountNumber(user.getUsername());
                                 yaxing.setCreatedate(new Date());
-                                yaxing.setType("1");
+                                yaxing.setType("2");
                                 yaxing.setNumberOfLayers(1);
-                                yaxing.setStartDate(DateUtil.lastMonday());
-                                yaxing.setEndDate(DateUtil.lastSunday());
+                                yaxing.setStartDate(DateUtil.lastMondayOfLastMonth());
+                                yaxing.setEndDate(DateUtil.lastSundayLastMonth());
 
                                 queryWrapper =new QueryWrapper();
-                                queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                                queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                                queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                                 queryWrapper.eq("account_number",user.getUsername());
-                                queryWrapper.eq("type","1");
+                                queryWrapper.eq("type","2");
                                 queryWrapper.eq("zh",yaxing.getZh());
                                 queryWrapper.eq("jb",yaxing.getJb());
                                 queryWrapper.eq("lx",yaxing.getLx());
@@ -229,17 +220,17 @@ public class YaxingBills {
                                 yaxing.setCreatedate(new Date());
                                 yaxing.setAccountNumber(user.getUsername());
                                 yaxing.setNumberOfLayers(1);
-                                yaxing.setType("1");
-                                yaxing.setStartDate(DateUtil.lastMonday());
-                                yaxing.setEndDate(DateUtil.lastSunday());
+                                yaxing.setType("2");
+                                yaxing.setStartDate(DateUtil.lastMondayOfLastMonth());
+                                yaxing.setEndDate(DateUtil.lastSundayLastMonth());
 
 
 
                                 queryWrapper =new QueryWrapper();
-                                queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                                queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                                queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                                 queryWrapper.eq("account_number",user.getUsername());
-                                queryWrapper.eq("type","1");
+                                queryWrapper.eq("type","2");
 
                                 queryWrapper.eq("zh",yaxing.getZh());
                                 queryWrapper.eq("jb",yaxing.getJb());
@@ -324,19 +315,19 @@ public class YaxingBills {
                                                 yaxing.setGdjg(td.get(i1++).getText());
                                                 yaxing.setCreatedate(new Date());
                                                 yaxing.setAccountNumber(user.getUsername());
-                                                yaxing.setType("1");
+                                                yaxing.setType("2");
                                                 yaxing.setNumberOfLayers(2);
 //                                            yaxings.add(yaxing);
-                                                yaxing.setStartDate(DateUtil.lastMonday());
-                                                yaxing.setEndDate(DateUtil.lastSunday());
+                                                yaxing.setStartDate(DateUtil.lastMondayOfLastMonth());
+                                                yaxing.setEndDate(DateUtil.lastSundayLastMonth());
 
 
 
                                                 queryWrapper =new QueryWrapper();
-                                                queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                                                queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                                queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                                                queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                                                 queryWrapper.eq("account_number",user.getUsername());
-                                                queryWrapper.eq("type","1");
+                                                queryWrapper.eq("type","2");
                                                 queryWrapper.eq("zh",yaxing.getZh());
                                                 queryWrapper.eq("jb",yaxing.getJb());
                                                 queryWrapper.eq("lx",yaxing.getLx());
@@ -420,19 +411,19 @@ public class YaxingBills {
                                                                 yaxing.setGdjg(td.get(i1++).getText());
                                                                 yaxing.setCreatedate(new Date());
                                                                 yaxing.setAccountNumber(user.getUsername());
-                                                                yaxing.setType("1");
+                                                                yaxing.setType("2");
                                                                 yaxing.setNumberOfLayers(2);
 //                                            yaxings.add(yaxing);
-                                                                yaxing.setStartDate(DateUtil.lastMonday());
-                                                                yaxing.setEndDate(DateUtil.lastSunday());
+                                                                yaxing.setStartDate(DateUtil.lastMondayOfLastMonth());
+                                                                yaxing.setEndDate(DateUtil.lastSundayLastMonth());
 
 
 
                                                                 queryWrapper =new QueryWrapper();
-                                                                queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                                                                queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                                                                queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                                                                queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                                                                 queryWrapper.eq("account_number",user.getUsername());
-                                                                queryWrapper.eq("type","1");
+                                                                queryWrapper.eq("type","2");
                                                                 queryWrapper.eq("zh",yaxing.getZh());
                                                                 queryWrapper.eq("jb",yaxing.getJb());
                                                                 queryWrapper.eq("lx",yaxing.getLx());
@@ -519,8 +510,8 @@ public class YaxingBills {
 
 
                     wrapper.eq("zh",stringCellValue.toUpperCase());
-                    wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                    wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                    wrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                     wrapper.select("SUM(syje) as syje");
                     Map<String,Object> map1 = yaxingService.getMap(wrapper);
                     if (map1!=null){
@@ -534,8 +525,8 @@ public class YaxingBills {
                     wrapper.eq("lx","真人遊戲");
 
                     wrapper.eq("zh",stringCellValue.toUpperCase());
-                    wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                    wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                    wrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
                     wrapper.select("SUM(syje) as syjg, SUM(zxml) as zxml");
                     Map<String,Object> map1 = yaxingService.getMap(wrapper);
                     if (map1 !=null){

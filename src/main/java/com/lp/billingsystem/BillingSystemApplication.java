@@ -1,7 +1,9 @@
 package com.lp.billingsystem;
 
 import com.lp.billingsystem.bills.HuangguanBills;
+import com.lp.billingsystem.bills.HuangguanBills_yuetui;
 import com.lp.billingsystem.bills.YaxingBills;
+import com.lp.billingsystem.bills.YaxingBills_yuetui;
 import com.lp.billingsystem.config.spring.SpringContextHolder;
 import com.lp.billingsystem.service.UserService;
 import lombok.extern.log4j.Log4j2;
@@ -31,13 +33,34 @@ public class BillingSystemApplication {
        log.info("启动成功");
         YaxingBills yaxing = SpringContextHolder.getBean(YaxingBills.class);
         HuangguanBills huangguanBills = SpringContextHolder.getBean(HuangguanBills.class);
+
+        YaxingBills_yuetui yaxingBillsYuetui = SpringContextHolder.getBean(YaxingBills_yuetui.class);
+        HuangguanBills_yuetui huangguanBillsYuetui = SpringContextHolder.getBean(HuangguanBills_yuetui.class);
+
+
 //        yaxing.bills();
         yaxing.writeYaxin2();
 
         //皇冠登0
-        huangguanBills.bills();
-        huangguanBills.write00();
+//        huangguanBills.bills();
+//        huangguanBills.write00();
 //        huangguanBills.bills01(1);
+
+
+//        yaxingBillsYuetui.bills();
+//        huangguanBillsYuetui.bills();
+//        huangguanBillsYuetui.write00();
+
+
+
+
+
+
+
+
+
+
+
     }
 
 
