@@ -495,7 +495,7 @@ public class YaxingBills {
         try {
             QueryWrapper<Yaxing> wrapper = new QueryWrapper();
 // 1.获取工作簿
-            XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\000.xlsx");
+            XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\tengda\\000.xlsx");
 //        XSSFWorkbook workbook = new XSSFWorkbook("/data/2022-12-05_2022-12-11 (1).xls");
             // 2.获取工作表
             // xlsx第一个工作簿(Sheet1)，下标从0开始，0就是第一个
@@ -549,7 +549,7 @@ public class YaxingBills {
 
 
             }
-            FileOutputStream out = new FileOutputStream("D:\\data\\001.xlsx");
+            FileOutputStream out = new FileOutputStream("D:\\data\\tengda\\001.xlsx");
 
             FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
             formulaEvaluator.evaluateAll();
