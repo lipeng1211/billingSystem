@@ -90,8 +90,8 @@ public class YaxingBills_yuetui {
             Boolean isTrue = true;
 //        Jedis jedis = RedisConnection.getJedis();
             QueryWrapper queryWrapper = new QueryWrapper();
-            queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-            queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+            queryWrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+            queryWrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
             queryWrapper.eq("account_number",user.getAccountNumber());
             queryWrapper.eq("type",1);
             ArrayList<Yaxing> yaxings = new ArrayList<>();
@@ -162,12 +162,12 @@ public class YaxingBills_yuetui {
                                 yaxing.setCreatedate(new Date());
                                 yaxing.setType("2");
                                 yaxing.setNumberOfLayers(1);
-                                yaxing.setStartDate(DateUtil.lastMondayOfLastMonth());
-                                yaxing.setEndDate(DateUtil.lastSundayLastMonth());
+                                yaxing.setStartDate(DateUtil.startDate());
+                                yaxing.setEndDate(DateUtil.endDate());
 
                                 queryWrapper =new QueryWrapper();
-                                queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                                queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                                queryWrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                                queryWrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                                 queryWrapper.eq("account_number",user.getUsername());
                                 queryWrapper.eq("type","2");
                                 queryWrapper.eq("zh",yaxing.getZh());
@@ -221,14 +221,14 @@ public class YaxingBills_yuetui {
                                 yaxing.setAccountNumber(user.getUsername());
                                 yaxing.setNumberOfLayers(1);
                                 yaxing.setType("2");
-                                yaxing.setStartDate(DateUtil.lastMondayOfLastMonth());
-                                yaxing.setEndDate(DateUtil.lastSundayLastMonth());
+                                yaxing.setStartDate(DateUtil.startDate());
+                                yaxing.setEndDate(DateUtil.endDate());
 
 
 
                                 queryWrapper =new QueryWrapper();
-                                queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                                queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                                queryWrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                                queryWrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                                 queryWrapper.eq("account_number",user.getUsername());
                                 queryWrapper.eq("type","2");
 
@@ -318,14 +318,14 @@ public class YaxingBills_yuetui {
                                                 yaxing.setType("2");
                                                 yaxing.setNumberOfLayers(2);
 //                                            yaxings.add(yaxing);
-                                                yaxing.setStartDate(DateUtil.lastMondayOfLastMonth());
-                                                yaxing.setEndDate(DateUtil.lastSundayLastMonth());
+                                                yaxing.setStartDate(DateUtil.startDate());
+                                                yaxing.setEndDate(DateUtil.endDate());
 
 
 
                                                 queryWrapper =new QueryWrapper();
-                                                queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                                                queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                                                queryWrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                                                queryWrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                                                 queryWrapper.eq("account_number",user.getUsername());
                                                 queryWrapper.eq("type","2");
                                                 queryWrapper.eq("zh",yaxing.getZh());
@@ -414,14 +414,14 @@ public class YaxingBills_yuetui {
                                                                 yaxing.setType("2");
                                                                 yaxing.setNumberOfLayers(2);
 //                                            yaxings.add(yaxing);
-                                                                yaxing.setStartDate(DateUtil.lastMondayOfLastMonth());
-                                                                yaxing.setEndDate(DateUtil.lastSundayLastMonth());
+                                                                yaxing.setStartDate(DateUtil.startDate());
+                                                                yaxing.setEndDate(DateUtil.endDate());
 
 
 
                                                                 queryWrapper =new QueryWrapper();
-                                                                queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                                                                queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                                                                queryWrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                                                                queryWrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                                                                 queryWrapper.eq("account_number",user.getUsername());
                                                                 queryWrapper.eq("type","2");
                                                                 queryWrapper.eq("zh",yaxing.getZh());
@@ -510,8 +510,8 @@ public class YaxingBills_yuetui {
 
 
                     wrapper.eq("zh",stringCellValue.toUpperCase());
-                    wrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                    wrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                    wrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                     wrapper.select("SUM(syje) as syje");
                     Map<String,Object> map1 = yaxingService.getMap(wrapper);
                     if (map1!=null){
@@ -525,8 +525,8 @@ public class YaxingBills_yuetui {
                     wrapper.eq("lx","真人遊戲");
 
                     wrapper.eq("zh",stringCellValue.toUpperCase());
-                    wrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                    wrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                    wrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                     wrapper.select("SUM(syje) as syjg, SUM(zxml) as zxml");
                     Map<String,Object> map1 = yaxingService.getMap(wrapper);
                     if (map1 !=null){

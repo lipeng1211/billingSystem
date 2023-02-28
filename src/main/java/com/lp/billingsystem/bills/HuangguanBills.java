@@ -638,8 +638,8 @@ public class HuangguanBills {
 
                     wrapper = new QueryWrapper();
                     wrapper.eq("zh",trim);
-                    wrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                    wrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                    wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                     Huangguan huangguan = huangguanService.getOne(wrapper);
                     if (huangguan !=null){
                         if (huangguanDaima !=null){
@@ -670,6 +670,8 @@ public class HuangguanBills {
                 }
 
 
+
+
                 if (row.getCell(6) !=null && row.getCell(6).getCellType().getCode() == 1){
                     String trim = row.getCell(6).getStringCellValue().trim();
                     log.info("右边的代码：：：：：{}",row.getCell(6).getStringCellValue());
@@ -679,8 +681,8 @@ public class HuangguanBills {
 
                     wrapper = new QueryWrapper();
                     wrapper.eq("zh",trim);
-                    wrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                    wrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                    wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                     Huangguan huangguan = huangguanService.getOne(wrapper);
                     if (huangguan !=null){
                         if (huangguanDaima !=null){

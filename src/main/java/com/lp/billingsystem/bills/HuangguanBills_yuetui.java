@@ -5,12 +5,8 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.lp.billingsystem.config.redis.RedisCache;
-import com.lp.billingsystem.domain.Huangguan;
-import com.lp.billingsystem.domain.HuangguanDaima;
-import com.lp.billingsystem.domain.User;
-import com.lp.billingsystem.service.HuangguanDaimaService;
-import com.lp.billingsystem.service.HuangguanService;
-import com.lp.billingsystem.service.UserService;
+import com.lp.billingsystem.domain.*;
+import com.lp.billingsystem.service.*;
 import com.lp.billingsystem.util.DateUtil;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.extern.log4j.Log4j2;
@@ -45,7 +41,7 @@ public class HuangguanBills_yuetui {
     @Autowired(required=true)
     UserService userService;
     @Autowired(required=true)
-    HuangguanService huangguanService;
+    HuangguanYuetuiService huangguanService;
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     public void bills() {
         QueryWrapper wrapper = new QueryWrapper();
@@ -58,7 +54,7 @@ public class HuangguanBills_yuetui {
         
         for (User user: list
              ) {
-            Huangguan huangguan = new Huangguan();
+            HuangguanYuetui huangguan = new HuangguanYuetui();
 //            ArrayList<Huangguan> huangguans = new ArrayList<>();
             try {
                 Configuration.browserSize = "1280x800";
@@ -132,7 +128,7 @@ public class HuangguanBills_yuetui {
 //                    System.out.println("股东 = " + div.get(0).getText());
 //                    System.out.println("股东结果 = " + div.get(1).getText());
 //                    System.out.println("股东实货量 = " + div.get(2).getText());
-                    huangguan = new Huangguan();
+                    huangguan = new HuangguanYuetui();
                     HashMap map = new HashMap();
                     map.put("gudong",div.get(0).getText());
                     map.put("gudongnmame","YS301ABC");
@@ -148,12 +144,12 @@ public class HuangguanBills_yuetui {
                     huangguan.setAccountNumber(user.getUsername());
                     huangguan.setNumberOfLayers(1);
                     huangguan.setType("2");
-                    huangguan.setStartDate(DateUtil.lastMondayOfLastMonth());
-                    huangguan.setEndDate(DateUtil.lastSundayLastMonth());
+                    huangguan.setStartDate(DateUtil.startDate());
+                    huangguan.setEndDate(DateUtil.endDate());
 
                     queryWrapper =new QueryWrapper();
-                    queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                    queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                    queryWrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                    queryWrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                     queryWrapper.eq("account_number",user.getUsername());
                     queryWrapper.eq("type","2");
                     queryWrapper.eq("zh",huangguan.getZh());
@@ -186,7 +182,7 @@ public class HuangguanBills_yuetui {
                         map.put("gudongnmame",word_link.getText());
                         map.put("gudongjieguo",div2.get(1).getText());
                         map.put("gdshl",div2.get(2).getText());
-                        huangguan = new Huangguan();
+                        huangguan = new HuangguanYuetui();
                         huangguan.setGd(div2.get(0).getText());
                         huangguan.setZh(word_link.getText());
                         huangguan.setGdjg(div2.get(1).getText());
@@ -196,13 +192,13 @@ public class HuangguanBills_yuetui {
                         huangguan.setAccountNumber(user.getUsername());
                         huangguan.setNumberOfLayers(1);
                         huangguan.setType("2");
-                        huangguan.setStartDate(DateUtil.lastMondayOfLastMonth());
-                        huangguan.setEndDate(DateUtil.lastSundayLastMonth());
+                        huangguan.setStartDate(DateUtil.startDate());
+                        huangguan.setEndDate(DateUtil.endDate());
 
 
                         queryWrapper =new QueryWrapper();
-                        queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                        queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                        queryWrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                        queryWrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                         queryWrapper.eq("account_number",user.getUsername());
                         queryWrapper.eq("type","2");
                         queryWrapper.eq("zh",huangguan.getZh());
@@ -213,7 +209,6 @@ public class HuangguanBills_yuetui {
                         }
 
 
-//                        huangguanService.save(huangguan);
 //                    RedisOps.set(RedisKey.HG0_DAILI+word_link.getText(), JSONObject.toJSONString(map));
                         isTrue = false;
                     }
@@ -258,11 +253,10 @@ public class HuangguanBills_yuetui {
                     map.put("gudongnmame","YS301ABC");
                     map.put("gudongjieguo",div.get(1).getText());
                     map.put("gdshl",div.get(2).getText());
-                    huangguan = new Huangguan();
+                    huangguan = new HuangguanYuetui();
                     log.info("这是啥：：：：：：：：：",map);
 //                    huangguan.setGd();
 
-//                    huangguanService.save(huangguan);
 //                RedisOps.set(RedisKey.HG0_GUDONG+"YS301ABC", JSONObject.toJSONString(map));
 
                     //            SelenideElement selenideElement2 = selenideElement.$(".re_bodybg01G");
@@ -324,7 +318,7 @@ public class HuangguanBills_yuetui {
                                 map.put("gudongjieguo",div22.get(1).getText());
                                 map.put("gdshl",div22.get(2).getText());
                                 log.info("map:::::::::{}",map);
-                                huangguan = new Huangguan();
+                                huangguan = new HuangguanYuetui();
                                 k = 0;
                                 huangguan.setZh(elements.get(i2).getText());
                                 huangguan.setZdljg(div22.get(k++).getText());
@@ -339,12 +333,12 @@ public class HuangguanBills_yuetui {
                                 huangguan.setAccountNumber(user.getUsername());
                                 huangguan.setNumberOfLayers(2);
                                 huangguan.setType("2");
-                                huangguan.setStartDate(DateUtil.lastMondayOfLastMonth());
-                                huangguan.setEndDate(DateUtil.lastSundayLastMonth());
+                                huangguan.setStartDate(DateUtil.startDate());
+                                huangguan.setEndDate(DateUtil.endDate());
 
                                 queryWrapper =new QueryWrapper();
-                                queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                                queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                                queryWrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                                queryWrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                                 queryWrapper.eq("account_number",user.getUsername());
                                 queryWrapper.eq("type","2");
                                 queryWrapper.eq("zh",huangguan.getZh());
@@ -355,7 +349,7 @@ public class HuangguanBills_yuetui {
                                 }
 
 
-//                                huangguanService.save(huangguan);
+
 
 //                    RedisOps.set(RedisKey.HG0_DAILI+word_link.getText(), JSONObject.toJSONString(map));
 //                            isTrue = false;
@@ -421,7 +415,7 @@ public class HuangguanBills_yuetui {
 //                                            webElement.findElement(By.className("re_div_moveG")).findElements(By.className("re_td_w15")).get(3).getText();
 
 
-                                            huangguan = new Huangguan();
+                                            huangguan = new HuangguanYuetui();
                                             k = 0;
                                             huangguan.setZh(text);
                                             huangguan.setDls(elements1.get(k++).getText());
@@ -435,12 +429,12 @@ public class HuangguanBills_yuetui {
                                             huangguan.setAccountNumber(user.getUsername());
                                             huangguan.setNumberOfLayers(3);
                                             huangguan.setType("2");
-                                            huangguan.setStartDate(DateUtil.lastMondayOfLastMonth());
-                                            huangguan.setEndDate(DateUtil.lastSundayLastMonth());
+                                            huangguan.setStartDate(DateUtil.startDate());
+                                            huangguan.setEndDate(DateUtil.endDate());
 
                                             queryWrapper =new QueryWrapper();
-                                            queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                                            queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                                            queryWrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                                            queryWrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                                             queryWrapper.eq("account_number",user.getUsername());
                                             queryWrapper.eq("type","2");
                                             queryWrapper.eq("zh",huangguan.getZh());
@@ -499,7 +493,7 @@ public class HuangguanBills_yuetui {
                                                             reDivBody55) {
                                                         List<WebElement> elements = webElement1.findElement(By.className("re_div_moveG")).findElements(By.tagName("div"));
                                                         String text1 = webElement1.findElement(By.className("re_left_br")).findElement(By.name("user_btn")).getText();
-                                                        huangguan = new Huangguan();
+                                                        huangguan = new HuangguanYuetui();
                                                         k = 0;
                                                         huangguan.setZh(text1);
                                                         huangguan.setBs(elements.get(k++).getText());
@@ -512,16 +506,16 @@ public class HuangguanBills_yuetui {
 
                                                         huangguan.setCreatedate(new Date());
                                                         huangguan.setAccountNumber(user.getUsername());
-                                                        huangguan.setNumberOfLayers(3);
+                                                        huangguan.setNumberOfLayers(4);
                                                         huangguan.setType("2");
-                                                        huangguan.setStartDate(DateUtil.lastMondayOfLastMonth());
-                                                        huangguan.setEndDate(DateUtil.lastSundayLastMonth());
+                                                        huangguan.setStartDate(DateUtil.startDate());
+                                                        huangguan.setEndDate(DateUtil.endDate());
 
 
 //                                                        elements.get(num++).getText();
                                                         queryWrapper =new QueryWrapper();
-                                                        queryWrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                                                        queryWrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
+                                                        queryWrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                                                        queryWrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
                                                         queryWrapper.eq("account_number",user.getUsername());
                                                         queryWrapper.eq("type","2");
                                                         queryWrapper.eq("zh",huangguan.getZh());
@@ -604,14 +598,14 @@ public class HuangguanBills_yuetui {
     }
 
     @Autowired
-    HuangguanDaimaService huangguanDaimaService;
+    HuangguanYuetuiDaimaService huangguanYuetuiDaimaService;
 
     public void write00()  {
         try {
-            QueryWrapper<Huangguan> wrapper = new QueryWrapper();
+            QueryWrapper<HuangguanYuetui> wrapper = new QueryWrapper();
             QueryWrapper<HuangguanDaima> wrapper2 = new QueryWrapper();
 // 1.获取工作簿
-            XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\000.xlsx");
+            XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\tengda\\000.xlsx");
 //        XSSFWorkbook workbook = new XSSFWorkbook("/data/2022-12-05_2022-12-11 (1).xls");
             // 2.获取工作表
             // xlsx第一个工作簿(Sheet1)，下标从0开始，0就是第一个
@@ -629,37 +623,60 @@ public class HuangguanBills_yuetui {
                 if (row.getCell(2) !=null && row.getCell(2).getCellType().getCode() == 1){
                     String trim = row.getCell(2).getStringCellValue().trim();
                     log.info("左边的代码：：：：：{}",trim);
-                    wrapper1 = new QueryWrapper();
-                    wrapper1.eq("zh",trim);
-
-                    HuangguanDaima huangguanDaima = huangguanDaimaService.getOne(wrapper1);
+//                    wrapper1 = new QueryWrapper();
+//                    wrapper1.eq("zh",trim);
+//
+//                    HuangguanYuetuiDaima huangguanDaima = huangguanYuetuiDaimaService.getOne(wrapper1);
 
                     wrapper = new QueryWrapper();
                     wrapper.eq("zh",trim);
-                    wrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                    wrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
-                    Huangguan huangguan = huangguanService.getOne(wrapper);
+                    wrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
+                    wrapper.ne("account_number","ys81lc");
+                    HuangguanYuetui huangguan = huangguanService.getOne(wrapper);
                     if (huangguan !=null){
-                        if (huangguanDaima !=null){
-
-                            switch (huangguanDaima.getState()){
+                        //不取正值
+                        if ( row.getCell(0) != null && row.getCell(0).getCellType().getCode() == 0 && row.getCell(0).getNumericCellValue() == 1){
+                            switch (huangguan.getNumberOfLayers()){
 //                            股东
                                 case 1:
-                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                                    if (Double.valueOf(huangguan.getGdjg())<0){
+                                        row.getCell(3).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                                    }
                                     break;
-                                    //总代理
+                                //总代理
                                 case 2:
-                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getZdljg()).multiply(new BigDecimal("100")).doubleValue());
+                                    if (Double.valueOf(huangguan.getZdljg())<0) {
+                                        row.getCell(3).setCellValue(new BigDecimal(huangguan.getZdljg()).multiply(new BigDecimal("100")).doubleValue());
+                                    }
                                     break;
-                                    //会员
+                                //会员
                                 case 3:
-                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
+                                    if (Double.valueOf(huangguan.getDlsjg())<0) {
+                                        row.getCell(3).setCellValue(new BigDecimal(huangguan.getDlsjg()).multiply(new BigDecimal("100")).doubleValue());
+                                    }
                                     break;
                             }
 
                         }else {
-                            row.getCell(3).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                            switch (huangguan.getNumberOfLayers()){
+//                            股东
+                                case 1:
+                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                                    break;
+                                //总代理
+                                case 2:
+                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getZdljg()).multiply(new BigDecimal("100")).doubleValue());
+                                    break;
+                                //会员
+                                case 3:
+                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getDlsjg()).multiply(new BigDecimal("100")).doubleValue());
+                                    break;
+                            }
+
                         }
+
+
 
                     }
 
@@ -671,45 +688,254 @@ public class HuangguanBills_yuetui {
                 if (row.getCell(10) !=null && row.getCell(10).getCellType().getCode() == 1){
                     String trim = row.getCell(10).getStringCellValue().trim();
                     log.info("右边的代码：：：：：{}",row.getCell(10).getStringCellValue());
-                    wrapper1 = new QueryWrapper();
-                    wrapper1.eq("zh",trim);
-                    HuangguanDaima huangguanDaima = huangguanDaimaService.getOne(wrapper1);
+//                    wrapper1 = new QueryWrapper();
+//                    wrapper1.eq("zh",trim);
+//                    HuangguanYuetuiDaima huangguanDaima = huangguanYuetuiDaimaService.getOne(wrapper1);
 
                     wrapper = new QueryWrapper();
                     wrapper.eq("zh",trim);
-                    wrapper.eq("start_date", DateUtil.lastMondayOfLastMonth().format(dateTimeFormatter));
-                    wrapper.eq("end_date", DateUtil.lastSundayLastMonth().format(dateTimeFormatter));
-                    Huangguan huangguan = huangguanService.getOne(wrapper);
-                    if (huangguan !=null){
-                        if (huangguanDaima !=null){
+                    wrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
+                    wrapper.ne("account_number","ys81lc");
+                    HuangguanYuetui huangguan = huangguanService.getOne(wrapper);
 
-                            switch (huangguanDaima.getState()){
+
+                    QueryWrapper wrapper3 = new QueryWrapper();
+                    wrapper3.eq("zh",trim);
+                    wrapper3.eq("start_date", DateUtil.startDate(-1).format(dateTimeFormatter));
+                    wrapper3.eq("end_date", DateUtil.endDate(-1).format(dateTimeFormatter));
+                    wrapper3.ne("account_number","ys81lc");
+                    HuangguanYuetui huangguan2 = huangguanService.getOne(wrapper3);
+
+                    if ( row.getCell(7) != null && row.getCell(7).getCellType().getCode() == 0 && row.getCell(7).getNumericCellValue() == 1){
+                        if (huangguan2 != null) {
+
+                            switch (huangguan2.getNumberOfLayers()) {
 //                            股东
                                 case 1:
-                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan2.getGdshl()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                                 //总代理
                                 case 2:
-                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getZdljg()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan2.getZdlshl()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                                 //会员
                                 case 3:
-                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan2.getDlsshl()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                             }
 
-                        }else {
-                            row.getCell(11).setCellValue(new BigDecimal(huangguan.getGdjg()).multiply(new BigDecimal("100")).doubleValue());
+
                         }
 
-                    }
+                    }else {
 
+                        if (huangguan != null) {
+
+                            switch (huangguan.getNumberOfLayers()) {
+//                            股东
+                                case 1:
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getGdshl()).multiply(new BigDecimal("100")).doubleValue());
+                                    break;
+                                //总代理
+                                case 2:
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getZdlshl()).multiply(new BigDecimal("100")).doubleValue());
+                                    break;
+                                //会员
+                                case 3:
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getDlsshl()).multiply(new BigDecimal("100")).doubleValue());
+                                    break;
+                            }
+
+
+                        }
+                    }
                 }
 
 
 
             }
-            FileOutputStream out = new FileOutputStream("D:\\data\\001.xlsx");
+            FileOutputStream out = new FileOutputStream("D:\\data\\tengda\\001.xlsx");
+
+            FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
+            formulaEvaluator.evaluateAll();
+            workbook.setForceFormulaRecalculation(true);
+
+            workbook.write(out);
+            out.close();
+            // 释放资源
+            workbook.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+//        System.out.println(maps);
+//        return maps;
+
+    }
+    /**
+    * 不需要乘以100
+    * @Author lipeng
+    * @Date 2023/2/27 21:58
+    * @param 
+    * @return void
+    */
+    public void write01()  {
+        try {
+            QueryWrapper<HuangguanYuetui> wrapper = new QueryWrapper();
+            QueryWrapper<HuangguanDaima> wrapper2 = new QueryWrapper();
+// 1.获取工作簿
+            XSSFWorkbook workbook = new XSSFWorkbook("D:\\data\\tengda\\000.xlsx");
+//        XSSFWorkbook workbook = new XSSFWorkbook("/data/2022-12-05_2022-12-11 (1).xls");
+            // 2.获取工作表
+            // xlsx第一个工作簿(Sheet1)，下标从0开始，0就是第一个
+            XSSFSheet sheet = workbook.getSheetAt(10);
+//        HashMap<String, BigDecimal> maps = new HashMap();
+            /*使用加强for循环的方式*/
+            int i = 0;
+            QueryWrapper wrapper1 = new QueryWrapper();
+            // 3.获取行
+            for (Row row : sheet) {
+                int k = 0;
+                // 4.获取单元格
+                HashMap map = new HashMap();
+
+                if (row.getCell(2) !=null && row.getCell(2).getCellType().getCode() == 1){
+                    String trim = row.getCell(2).getStringCellValue().trim();
+                    log.info("左边的代码：：：：：{}",trim);
+//                    wrapper1 = new QueryWrapper();
+//                    wrapper1.eq("zh",trim);
+//
+//                    HuangguanYuetuiDaima huangguanDaima = huangguanYuetuiDaimaService.getOne(wrapper1);
+
+                    wrapper = new QueryWrapper();
+                    wrapper.eq("zh",trim);
+                    wrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
+                    wrapper.eq("account_number","ys301b");
+                    HuangguanYuetui huangguan = huangguanService.getOne(wrapper);
+                    if (huangguan !=null){
+                        //不取正值
+                        if ( row.getCell(0) != null && row.getCell(0).getCellType().getCode() == 0 && row.getCell(0).getNumericCellValue() == 1){
+                            switch (huangguan.getNumberOfLayers()){
+//                            股东
+                                case 1:
+                                    if (Double.valueOf(huangguan.getGdjg())<0){
+                                        row.getCell(3).setCellValue(new BigDecimal(huangguan.getGdjg()).doubleValue());
+                                    }
+                                    break;
+                                //总代理
+                                case 2:
+                                    if (Double.valueOf(huangguan.getZdljg())<0) {
+                                        row.getCell(3).setCellValue(new BigDecimal(huangguan.getZdljg()).doubleValue());
+                                    }
+                                    break;
+                                //会员
+                                case 3:
+                                    if (Double.valueOf(huangguan.getDlsjg())<0) {
+                                        row.getCell(3).setCellValue(new BigDecimal(huangguan.getDlsjg()).doubleValue());
+                                    }
+                                    break;
+                            }
+
+                        }else {
+                            switch (huangguan.getNumberOfLayers()){
+//                            股东
+                                case 1:
+                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getGdjg()).doubleValue());
+                                    break;
+                                //总代理
+                                case 2:
+                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getZdljg()).doubleValue());
+                                    break;
+                                //会员
+                                case 3:
+                                    row.getCell(3).setCellValue(new BigDecimal(huangguan.getDlsjg()).doubleValue());
+                                    break;
+                            }
+
+                        }
+
+
+
+                    }
+
+
+//                    wrapper1.get
+                }
+
+
+                if (row.getCell(10) !=null && row.getCell(10).getCellType().getCode() == 1){
+                    String trim = row.getCell(10).getStringCellValue().trim();
+                    log.info("右边的代码：：：：：{}",row.getCell(10).getStringCellValue());
+//                    wrapper1 = new QueryWrapper();
+//                    wrapper1.eq("zh",trim);
+//                    HuangguanYuetuiDaima huangguanDaima = huangguanYuetuiDaimaService.getOne(wrapper1);
+
+                    wrapper = new QueryWrapper();
+                    wrapper.eq("zh",trim);
+                    wrapper.eq("start_date", DateUtil.startDate().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.endDate().format(dateTimeFormatter));
+                    wrapper.eq("account_number","ys301b");
+                    HuangguanYuetui huangguan = huangguanService.getOne(wrapper);
+
+
+                    QueryWrapper wrapper3 = new QueryWrapper();
+                    wrapper3.eq("zh",trim);
+                    wrapper3.eq("start_date", DateUtil.startDate(-1).format(dateTimeFormatter));
+                    wrapper3.eq("end_date", DateUtil.endDate(-1).format(dateTimeFormatter));
+                    wrapper3.eq("account_number","ys301b");
+                    HuangguanYuetui huangguan2 = huangguanService.getOne(wrapper3);
+
+                    if ( row.getCell(7) != null && row.getCell(7).getCellType().getCode() == 0 && row.getCell(7).getNumericCellValue() == 1){
+                        if (huangguan2 != null) {
+
+                            switch (huangguan2.getNumberOfLayers()) {
+//                            股东
+                                case 1:
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan2.getGdshl()).doubleValue());
+                                    break;
+                                //总代理
+                                case 2:
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan2.getZdlshl()).doubleValue());
+                                    break;
+                                //会员
+                                case 3:
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan2.getDlsshl()).doubleValue());
+                                    break;
+                            }
+
+
+                        }
+
+                    }else {
+
+                        if (huangguan != null) {
+
+                            switch (huangguan.getNumberOfLayers()) {
+//                            股东
+                                case 1:
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getGdshl()).doubleValue());
+                                    break;
+                                //总代理
+                                case 2:
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getZdlshl()).doubleValue());
+                                    break;
+                                //会员
+                                case 3:
+                                    row.getCell(11).setCellValue(new BigDecimal(huangguan.getDlsshl()).doubleValue());
+                                    break;
+                            }
+
+
+                        }
+                    }
+                }
+
+
+
+            }
+            FileOutputStream out = new FileOutputStream("D:\\data\\tengda\\001.xlsx");
 
             FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
             formulaEvaluator.evaluateAll();

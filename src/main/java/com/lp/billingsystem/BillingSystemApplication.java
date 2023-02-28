@@ -39,7 +39,7 @@ public class BillingSystemApplication {
 
 
 //        yaxing.bills();
-//        yaxing.writeYaxin2();
+        yaxing.writeYaxin2();
 
         //皇冠登0
 //        huangguanBills.bills();
@@ -50,6 +50,7 @@ public class BillingSystemApplication {
 //        yaxingBillsYuetui.bills();
 //        huangguanBillsYuetui.bills();
 //        huangguanBillsYuetui.write00();
+//        huangguanBillsYuetui.write01();
 
 
 
