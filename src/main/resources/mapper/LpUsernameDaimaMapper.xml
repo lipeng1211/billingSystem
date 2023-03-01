@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.billingsystem.mapper.LpUsernameDaimaMapper">
+
+    <resultMap id="BaseResultMap" type="com.lp.billingsystem.domain.LpUsernameDaima">
+            <id property="usernameId" column="username_id" jdbcType="INTEGER"/>
+            <id property="daima" column="daima" jdbcType="VARCHAR"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="isDel" column="is_del" jdbcType="TINYINT"/>
+            <result property="createdate" column="createDate" jdbcType="TIMESTAMP"/>
+            <result property="dianshu" column="dianshu" jdbcType="VARCHAR"/>
+            <result property="chengshu" column="chengshu" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        username_id,daima,username,
+        is_del,createDate,dianshu,
+        chengshu
+    </sql>
+</mapper>
