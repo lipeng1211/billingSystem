@@ -34,10 +34,10 @@ public class BillingSystemApplication {
 
 
 //        yaxing.bills();
-        huangguanBills.bills();
-//        yaxing.writeYaxin2();
+//        huangguanBills.bills();
+        yaxing.writeYaxin2();
         huangguanBills.write00();
-        System.out.println("运行完毕");
+//        System.out.println("运行完毕");
 //        huangguanBills.bills01(1);
     }
 

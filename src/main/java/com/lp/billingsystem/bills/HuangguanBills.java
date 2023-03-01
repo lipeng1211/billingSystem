@@ -650,7 +650,7 @@ public class HuangguanBills {
                                     break;
                                     //会员
                                 case 3:
-                                    row.getCell(2).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(2).setCellValue(new BigDecimal(huangguan.getDlsjg()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                             }
 
@@ -689,7 +689,7 @@ public class HuangguanBills {
                                     break;
                                 //会员
                                 case 3:
-                                    row.getCell(8).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(8).setCellValue(new BigDecimal(huangguan.getDlsjg()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                             }
 
