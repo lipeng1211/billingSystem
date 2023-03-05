@@ -86,6 +86,7 @@ public class HuangguanBills {
                 if ($("#loginBtn" ).exists()){
                     $("#loginBtn" ).click();
                 }
+                sleep(2000);
                 Wait().until(ExpectedConditions.elementToBeClickable(By.id("notice_close")));
                 $("#notice_close").click();
 //            Thread.sleep(5000);
@@ -107,10 +108,10 @@ public class HuangguanBills {
                 Thread.sleep(500);
 
                 //上星期
-                $("#date_lw" ).click();
+//                $("#date_lw" ).click();
 
                 //本周
-//                $("#date_tw" ).click();
+                $("#date_tw" ).click();
                 Thread.sleep(500);
                 $("#search_btn" ).click();
 
@@ -635,6 +636,8 @@ public class HuangguanBills {
 
                     wrapper = new QueryWrapper();
                     wrapper.eq("zh",trim);
+                    wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                     Huangguan huangguan = huangguanService.getOne(wrapper);
                     if (huangguan !=null){
                         if (huangguanDaima !=null){
@@ -650,7 +653,7 @@ public class HuangguanBills {
                                     break;
                                     //会员
                                 case 3:
-                                    row.getCell(2).setCellValue(new BigDecimal(huangguan.getDlsjg()).multiply(new BigDecimal("100")).doubleValue());
+                                    row.getCell(2).setCellValue(new BigDecimal(huangguan.getHy()).multiply(new BigDecimal("100")).doubleValue());
                                     break;
                             }
 
@@ -674,6 +677,8 @@ public class HuangguanBills {
 
                     wrapper = new QueryWrapper();
                     wrapper.eq("zh",trim);
+                    wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                    wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                     Huangguan huangguan = huangguanService.getOne(wrapper);
                     if (huangguan !=null){
                         if (huangguanDaima !=null){

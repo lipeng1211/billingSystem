@@ -18,13 +18,13 @@ public class LpUsernameDaima implements Serializable {
     /**
      * 
      */
-    @TableId
+//    @TableId
     private Integer usernameId;
 
     /**
      * 
      */
-    @TableId
+//    @TableId
     private String daima;
 
     /**

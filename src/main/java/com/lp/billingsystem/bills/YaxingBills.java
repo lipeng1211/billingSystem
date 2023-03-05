@@ -100,7 +100,7 @@ public class YaxingBills {
             queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
             queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
             queryWrapper.eq("account_number",user.getAccountNumber());
-            queryWrapper.eq("type",1);
+            queryWrapper.eq("type","1");
             ArrayList<Yaxing> yaxings = new ArrayList<>();
             Yaxing yaxing = new Yaxing();
             int i1 = 0;
@@ -182,8 +182,7 @@ public class YaxingBills {
                                 queryWrapper.eq("lx",yaxing.getLx());
                                 Yaxing one = yaxingService.getOne(queryWrapper);
                                 if (one == null && yaxing.getZh().length()>0){
-//                                    yaxings.add(yaxing);
-                                    yaxingService.save(yaxing);
+                                    yaxings.add(yaxing);
                                 }
                                 log.info("yaxing::{}",yaxing);
                             }
@@ -238,21 +237,20 @@ public class YaxingBills {
                                 queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
                                 queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                                 queryWrapper.eq("account_number",user.getUsername());
-                                queryWrapper.eq("type",1);
+                                queryWrapper.eq("type","1");
 
                                 queryWrapper.eq("zh",yaxing.getZh());
                                 queryWrapper.eq("jb",yaxing.getJb());
                                 queryWrapper.eq("lx",yaxing.getLx());
                                 Yaxing one = yaxingService.getOne(queryWrapper);
                                 if (one == null && yaxing.getZh().length()>0){
-//                                    yaxings.add(yaxing);
-                                    yaxingService.save(yaxing);
+                                    yaxings.add(yaxing);
                                 }
 
 
                             }
 
-
+//                            yaxings.add(yaxing);
 
                         }
 
@@ -336,14 +334,13 @@ public class YaxingBills {
                                                 queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
                                                 queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                                                 queryWrapper.eq("account_number",user.getUsername());
-                                                queryWrapper.eq("type",1);
+                                                queryWrapper.eq("type","1");
                                                 queryWrapper.eq("zh",yaxing.getZh());
                                                 queryWrapper.eq("jb",yaxing.getJb());
                                                 queryWrapper.eq("lx",yaxing.getLx());
                                                 Yaxing one = yaxingService.getOne(queryWrapper);
                                                 if (one == null && yaxing.getZh().length()>0){
-                                                    yaxingService.save(yaxing);
-//                                                    yaxings.add(yaxing);
+                                                    yaxings.add(yaxing);
                                                 }
 
                                             }
@@ -433,14 +430,13 @@ public class YaxingBills {
                                                                 queryWrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
                                                                 queryWrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
                                                                 queryWrapper.eq("account_number",user.getUsername());
-                                                                queryWrapper.eq("type",1);
+                                                                queryWrapper.eq("type","1");
                                                                 queryWrapper.eq("zh",yaxing.getZh());
                                                                 queryWrapper.eq("jb",yaxing.getJb());
                                                                 queryWrapper.eq("lx",yaxing.getLx());
                                                                 Yaxing one = yaxingService.getOne(queryWrapper);
                                                                 if (one == null && yaxing.getZh().length()>0){
-                                                                    yaxingService.save(yaxing);
-//                                                                    yaxings.add(yaxing);
+                                                                    yaxings.add(yaxing);
                                                                 }
 
                                                             }
@@ -480,7 +476,7 @@ public class YaxingBills {
 
                     }
 
-//                    yaxingService.saveBatch(yaxings);
+                    yaxingService.saveBatch(yaxings);
                     isTrue =false;
 
                 }
