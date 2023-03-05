@@ -5,10 +5,10 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/tengda?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=Asia/Shanghai
+#    url: jdbc:mysql://127.0.0.1:3306/tengda?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=Asia/Shanghai
 #    url: jdbc:mysql://127.0.0.1:3306/tengda_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=Asia/Shanghai
 #    url: jdbc:mysql://127.0.0.1:3306/xinya?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=Asia/Shanghai
-#    url: jdbc:mysql://127.0.0.1:3306/xinya_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/xinya_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=Asia/Shanghai
 #    url: jdbc:mysql://198.2.210.34:3306/xinya_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=Asia/Shanghai
     username: root
     password: Lp1211..
@@ -24,10 +24,10 @@ spring:
 
   data:
     redis:
-      host: 127.0.0.1
+      host: 110.42.5.182
       port: 6379
       password: Lp1211..
-      database: 5
+      database: 0
       client-type: lettuce
       connect-timeout: 5000
       lettuce:
