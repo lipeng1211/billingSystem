@@ -38,12 +38,12 @@ public class BillingSystemApplication {
         HuangguanBills_yuetui huangguanBillsYuetui = SpringContextHolder.getBean(HuangguanBills_yuetui.class);
 
 
-        yaxing.bills();
-//        yaxing.writeYaxin2();
+//        yaxing.bills();
+        yaxing.writeYaxin2();
 
         //皇冠登0
-        huangguanBills.bills();
-//        huangguanBills.write00();
+//        huangguanBills.bills();
+        huangguanBills.write00();
 //        huangguanBills.bills01(1);
 
 

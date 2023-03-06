@@ -123,9 +123,9 @@ public class YaxingBills {
                     $("#dateSpan2").click();
                     sleep(200);
                     //上周
-//                    $("option[value='lastWeek1']").click();
+                    $("option[value='lastWeek1']").click();
 //                    本周
-                    $("option[value='theWeek1']").click();
+//                    $("option[value='theWeek1']").click();
                     //上月
 //                    $("option[value='lastMonth1']").click();
                     //本月
@@ -509,42 +509,46 @@ public class YaxingBills {
                 // 4.获取单元格
                 HashMap map = new HashMap();
 
-                String stringCellValue = row.getCell(4).getStringCellValue();
 
-                Double numericCellValue = row.getCell(2).getNumericCellValue();
-                if (numericCellValue.intValue() == 2){
-                    BigDecimal sy1 = new BigDecimal(0);
-                    wrapper = new QueryWrapper();
-                    wrapper.and(w->w.eq("lx","電子遊戲").or().eq("lx","對戰遊戲"));
+                if (row.getCell(4) !=null && row.getCell(2) !=null){
+                    String stringCellValue = row.getCell(4).getStringCellValue();
+
+                    Double numericCellValue = row.getCell(2).getNumericCellValue();
+                    if (numericCellValue.intValue() == 2){
+                        BigDecimal sy1 = new BigDecimal(0);
+                        wrapper = new QueryWrapper();
+                        wrapper.and(w->w.eq("lx","電子遊戲").or().eq("lx","對戰遊戲"));
 
 
-                    wrapper.eq("zh",stringCellValue.toUpperCase());
-                    wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                    wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
-                    wrapper.select("SUM(syje) as syje");
-                    Map<String,Object> map1 = yaxingService.getMap(wrapper);
-                    if (map1!=null){
-                        row.getCell(7).setCellValue(Double.valueOf(map1.get("syje").toString()));
+                        wrapper.eq("zh",stringCellValue.toUpperCase());
+                        wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                        wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                        wrapper.select("SUM(syje) as syje");
+                        Map<String,Object> map1 = yaxingService.getMap(wrapper);
+                        if (map1!=null){
+                            row.getCell(7).setCellValue(Double.valueOf(map1.get("syje").toString()));
+                        }
+
+                    }else if (numericCellValue.intValue() == 1){
+
+                        BigDecimal sy1 = new BigDecimal(0);
+                        wrapper = new QueryWrapper();
+                        wrapper.eq("lx","真人遊戲");
+
+                        wrapper.eq("zh",stringCellValue.toUpperCase());
+                        wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
+                        wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
+                        wrapper.select("SUM(syje) as syjg, SUM(zxml) as zxml");
+                        Map<String,Object> map1 = yaxingService.getMap(wrapper);
+                        if (map1 !=null){
+                            row.getCell(7).setCellValue(Double.valueOf(map1.get("syjg").toString()));
+                            row.getCell(5).setCellValue(Double.valueOf(map1.get("zxml").toString()));
+                        }
+
                     }
 
-                }else if (numericCellValue.intValue() == 1){
-
-                    BigDecimal sy1 = new BigDecimal(0);
-                    wrapper = new QueryWrapper();
-                    wrapper.eq("lx","真人遊戲");
-
-                    wrapper.eq("zh",stringCellValue.toUpperCase());
-                    wrapper.eq("start_date", DateUtil.lastMonday().format(dateTimeFormatter));
-                    wrapper.eq("end_date", DateUtil.lastSunday().format(dateTimeFormatter));
-                    wrapper.select("SUM(syje) as syjg, SUM(zxml) as zxml");
-                    Map<String,Object> map1 = yaxingService.getMap(wrapper);
-                    if (map1 !=null){
-                        row.getCell(7).setCellValue(Double.valueOf(map1.get("syjg").toString()));
-                        row.getCell(5).setCellValue(Double.valueOf(map1.get("zxml").toString()));
-                    }
 
                 }
-
 
 
 
