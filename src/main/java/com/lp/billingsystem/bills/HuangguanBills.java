@@ -108,10 +108,10 @@ public class HuangguanBills {
                 Thread.sleep(500);
 
                 //上星期
-//                $("#date_lw" ).click();
+                $("#date_lw" ).click();
 
                 //本周
-                $("#date_tw" ).click();
+//                $("#date_tw" ).click();
                 Thread.sleep(500);
                 $("#search_btn" ).click();
 
