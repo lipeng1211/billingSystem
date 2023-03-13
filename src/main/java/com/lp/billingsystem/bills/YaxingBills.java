@@ -486,7 +486,7 @@ public class YaxingBills {
             }
 
         }
-
+        closeWebDriver();
     }
 
     public void writeYaxin2()  {
