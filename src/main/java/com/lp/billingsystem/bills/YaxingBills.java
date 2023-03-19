@@ -69,7 +69,7 @@ public class YaxingBills {
             Configuration.browserSize = "1280x800";
             SelenideLogger.addListener("allure", new AllureSelenide());
 //        open("https://www.yaxin868.net/credit/login.jsp");
-
+            https://www.yaxin868.net/credit/login.jsp
             open(user.getUrl());
             $("#txtUsername").sendKeys(user.getUsername());
             $("#txtPassword").sendKeys(user.getPassword());
